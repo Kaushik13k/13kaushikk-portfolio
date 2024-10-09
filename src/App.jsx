@@ -32,7 +32,7 @@ const App = () => {
   }, [isFinished]);
 
   return (
-    <div className="bg-[#EFF0F3] text-gray-800 font-poppins flex items-center justify-center h-screen m-0 font-bold">
+    <div className="bg-gradient-to-b from-soft-beige to-white text-dark-brownish-black font-poppins flex items-center justify-center h-screen m-0 font-bold">
       <div className="text-container relative w-3/4 md:w-1/2 flex flex-col items-center justify-center text-xl md:text-2xl">
         {messages.map((message, index) => (
           <p
@@ -46,9 +46,9 @@ const App = () => {
               <div className="flex items-center justify-center mt-4">
                 <FontAwesomeIcon
                   icon={faCircleArrowRight}
-                  className="ml-2 text-4xl text-gray-800 hover:text-gray-500 transition duration-300"
+                  className="ml-2 text-4xl text-dark-brownish-black hover:text-grayish-brown transition duration-300"
                 />
-                <span className="ml-2 text-gray-400 text-sm font-bold">
+                <span className="ml-2 text-muted-olive text-sm font-bold">
                   Click here!
                 </span>
               </div>
