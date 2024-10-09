@@ -32,7 +32,7 @@ const App = () => {
   }, [isFinished]);
 
   return (
-    <div className="bg-gradient-to-b from-soft-beige to-white text-dark-brownish-black font-poppins flex items-center justify-center h-screen m-0 font-bold">
+    <div className="bg-gradient-to-b from-soft-beige to-white text-dark-brownish-black font-poppins flex items-center justify-center min-h-screen m-0 font-bold">
       <div className="text-container relative w-3/4 md:w-1/2 flex flex-col items-center justify-center text-xl md:text-2xl">
         {messages.map((message, index) => (
           <p
