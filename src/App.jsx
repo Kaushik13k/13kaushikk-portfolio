@@ -1,5 +1,6 @@
 import "./App.css";
-import Navbar from "./sections/Navbar";
+import Home from "./Home";
+// import Navbar from "./sections/Navbar";
 import Welcome from "./sections/Welcome";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -9,7 +10,7 @@ const App = () => {
       <div className="bg-gradient-to-b from-soft-beige to-white">
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/home" element={<Navbar />} />
+          <Route path="/home" element={<Home />} />
           {/* <div className="container mx-auto px-8">
             <Navbar />
           </div> */}
