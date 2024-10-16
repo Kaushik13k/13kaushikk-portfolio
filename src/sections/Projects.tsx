@@ -113,7 +113,7 @@ const Projects = () => {
           <FontAwesomeIcon
             onClick={scrollLeft}
             style={{ fontSize: "30px" }}
-            className={`bg-[#83816D] text-white p-2 rounded-full hover:bg-[#22200F] ${
+            className={`bg-[#22200F] text-white p-2 rounded-full hover:bg-[#83816D] ${
               isLeftDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
             icon={faCircleArrowLeft}
@@ -125,7 +125,7 @@ const Projects = () => {
           <FontAwesomeIcon
             onClick={scrollRight}
             style={{ fontSize: "30px" }}
-            className={`bg-[#83816D] text-white p-2 rounded-full hover:bg-[#22200F] ${
+            className={`bg-[#22200F] text-white p-2 rounded-full hover:bg-[#83816D] ${
               isRightDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
             icon={faCircleArrowRight}
@@ -151,9 +151,9 @@ const Projects = () => {
               >
                 <div className="bg-white rounded-lg shadow-md w-full">
                   <div className="flex items-center justify-start bg-[#BFBCA7] p-2 rounded-t-lg">
-                    <div className="w-2 h-2 bg-[#676451] rounded-full mx-1"></div>
-                    <div className="w-2 h-2 bg-[#676451] rounded-full mx-1"></div>
-                    <div className="w-2 h-2 bg-[#676451] rounded-full mx-1"></div>
+                    <div className="w-2 h-2 bg-[#676451] rounded-full mx-1 aspect-square"></div>
+                    <div className="w-2 h-2 bg-[#676451] rounded-full mx-1 aspect-square"></div>
+                    <div className="w-2 h-2 bg-[#676451] rounded-full mx-1 aspect-square"></div>
 
                     <div className="px-2">
                       <input
