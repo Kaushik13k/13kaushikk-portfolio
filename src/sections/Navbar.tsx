@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
+// TODO:
+// 1. On hover change the color
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
