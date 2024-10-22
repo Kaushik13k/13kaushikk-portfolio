@@ -3,6 +3,8 @@ import Home from "./Home";
 import Welcome from "./sections/Welcome";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+// TODO:
+// 1. Have set the margin for everything in each sections. make it in one place
 const App = () => {
   return (
     <Router>
@@ -10,11 +12,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
-          {/* <div className="container mx-auto px-8">
-            <Navbar />
-          </div> */}
         </Routes>
-        {/* <Welcome />; */}
       </div>
     </Router>
   );

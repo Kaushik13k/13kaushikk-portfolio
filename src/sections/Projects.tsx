@@ -107,7 +107,7 @@ const Projects = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 lg:mx-48">
+    <div className="flex flex-col justify-center items-center p-4 lg:mx-60">
       <div className="relative w-full">
         <div className="absolute left-0 top-1/2 lg:-left-10">
           <FontAwesomeIcon
@@ -135,7 +135,7 @@ const Projects = () => {
 
         <div>
           <h3 className="text-2xl font-extrabold text-[#22200F]">Projects</h3>
-          <p className="text-sm text-[#83816D]">
+          <p className="text-sm text-[#83816D] pt-2">
             Some of the side projects I'm currently working on:
           </p>
         </div>
