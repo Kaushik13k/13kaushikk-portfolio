@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
+// TODO:
+// 1. On hover change the color
+// 2. Navigate to the appropriate tabs
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -11,7 +14,7 @@ const Navbar = () => {
 
   return (
     <div className="container mx-auto px-8">
-      <div className="text-[#676451] flex items-start justify-between py-6 lg:px-20 md:px-20 px-4 text-lg font-semibold">
+      <div className="text-[#676451] flex items-start justify-between py-6 lg:mx-28 md:mx-28 px-4 text-lg font-semibold">
         <div className="flex items-center">
           <h3>KAUSHIK K</h3>
         </div>
