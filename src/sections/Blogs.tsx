@@ -1,5 +1,5 @@
 import React from "react";
-import gtaImage from "../assets/gta-5.jpg";
+import gtaImage from "../assets/gta5.jpg";
 
 function Blogs() {
   return (
@@ -11,8 +11,8 @@ function Blogs() {
         </p>
       </div>
 
-      <div className="flex flex-row space-x-6 mt-6 w-full">
-        <div className="flex rounded-xl shadow-lg overflow-hidden w-2/3">
+      <div className="flex flex-col lg:flex-row md:flex-row space-x-0 lg:space-x-6 md:space-x-6 mt-6 w-full">
+        <div className="rounded-xl shadow-lg overflow-hidden w-full lg:w-2/3 md:w-2/3 mb-4 lg:mb-0 md:mb-0 hidden lg:flex md:flex">
           <div>
             <img
               src={gtaImage}
@@ -21,10 +21,8 @@ function Blogs() {
             />
           </div>
           <div className="bg-[#22200F] text-white w-96 flex flex-col px-6 py-8">
-            <h3 className="font-bold text-2xl mb-4">
-              The Best Hotels and Resorts in Europe
-            </h3>
-            <p className="text-sm flex-grow">
+            <h3 className="font-bold text-xl mb-4">Title-1</h3>
+            <p className="text-xs flex-grow">
               Explore Europe’s finest accommodations, from the sun-drenched
               shores of the French Riviera to the historic elegance of London
               and the tranquil beauty of the Bavarian Alps.
@@ -33,7 +31,26 @@ function Blogs() {
           </div>
         </div>
 
-        <div className="flex flex-col rounded-xl shadow-lg overflow-hidden w-1/3">
+        <div className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3 mb-4 lg:mb-0 md:mb-0 lg:hidden md:hidden">
+          <div>
+            <img
+              src={gtaImage}
+              alt="gta img"
+              className="w-full h-48 object-cover"
+            />
+          </div>
+          <div className="bg-black text-white w-full flex flex-col p-6">
+            <h3 className="font-bold text-xl mb-4">Title-2</h3>
+            <p className="text-xs flex-grow">
+              Explore Europe’s finest accommodations, from the sun-drenched
+              shores of the French Riviera to the historic elegance of London
+              and the tranquil beauty of the Bavarian Alps.
+            </p>
+            <p className="text-xs mt-4">Oct 12, 2023</p>
+          </div>
+        </div>
+
+        <div className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3">
           <div>
             <img
               src={gtaImage}
@@ -42,9 +59,7 @@ function Blogs() {
             />
           </div>
           <div className="bg-white text-black w-full flex flex-col p-6">
-            <h3 className="font-bold text-xl mb-4">
-              The Best Hotels in Budapest
-            </h3>
+            <h3 className="font-bold text-xl mb-4">Title-3</h3>
             <p className="text-xs flex-grow">
               Boutique hotels have mushroomed in Budapest in recent years, and
               on...

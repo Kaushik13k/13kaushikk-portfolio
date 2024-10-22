@@ -5,7 +5,7 @@ import {
   faPlaystation,
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
-import gtaImage from "../assets/gta-5.jpg";
+import gtaImage from "../assets/gta5.jpg";
 
 import {
   faCircleArrowLeft,
