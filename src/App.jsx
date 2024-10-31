@@ -1,5 +1,6 @@
 import "./App.css";
 import Home from "./Home";
+import BlogListing from "./BlogListing";
 import Welcome from "./sections/Welcome";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/blog-listing" element={<BlogListing />} />
         </Routes>
       </div>
     </Router>

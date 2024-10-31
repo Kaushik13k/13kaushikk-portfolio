@@ -1,7 +1,13 @@
 import React from "react";
 import gtaImage from "../assets/gta5.jpg";
+import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
 
 function Blogs() {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/blog-listing");
+  };
   return (
     <div className="flex flex-col justify-center items-center p-4 lg:mx-60 my-12">
       <div className="relative w-full">
@@ -70,7 +76,10 @@ function Blogs() {
       </div>
 
       <div className="mt-8">
-        <button className="bg-[#22200F] hover:bg-[#83816D] text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-all duration-300">
+        <button
+          className="bg-[#22200F] hover:bg-[#83816D] text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-all duration-300"
+          onClick={handleClick}
+        >
           View All Blogs
         </button>
       </div>
