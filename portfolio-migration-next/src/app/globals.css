@@ -12,3 +12,13 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 } */
+
+/* NOTE: THIS IS FROM APP.CSS */
+/* body {
+  font-family: "Poppins", sans-serif;
+}
+
+.bg-gradient-to-b {
+  background: linear-gradient(to bottom, #f5f0e1, #ffffff);
+  min-height: 100vh;
+} */
