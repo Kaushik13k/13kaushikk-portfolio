@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import * as Collapsible from "@radix-ui/react-collapsible";
+import Link from "next/link";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,9 +15,11 @@ const Navbar = () => {
   return (
     <div className="container mx-auto px-8">
       <div className="text-[#676451] flex items-start justify-between py-6 lg:mx-28 md:mx-28 px-4 text-lg font-semibold">
-        <div className="flex items-center">
-          <h3>KAUSHIK K</h3>
-        </div>
+        <Link href="/home">
+          <div className="flex items-center">
+            <h3>KAUSHIK K</h3>
+          </div>
+        </Link>
         <div className="flex items-center">
           <div
             className="block lg:hidden xl:hidden md:hidden cursor-pointer"
@@ -39,37 +42,53 @@ const Navbar = () => {
               }`}
               style={{ minWidth: "150px" }}
             >
-              <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
-                About
-              </li>
+              <Link href="/home">
+                <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
+                  About
+                </li>
+              </Link>
               <div className="border-b border-gray-200 my-1" />{" "}
-              <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
-                Projects
-              </li>
+              <Link href="#portfolio-projects">
+                <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
+                  Projects
+                </li>
+              </Link>
               <div className="border-b border-gray-200 my-1" />{" "}
-              <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
-                Blog
-              </li>
+              <Link href="#portfolio-blogs">
+                <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
+                  Blogs
+                </li>
+              </Link>
               <div className="border-b border-gray-200 my-1" />{" "}
-              <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
-                Contact
-              </li>
+              <Link href="#portfolio-contact">
+                <li className="flex justify-between items-center cursor-pointer hover:text-blue-500 transition-colors">
+                  Contact
+                </li>
+              </Link>
             </Collapsible.Content>
           </Collapsible.Root>
 
           <ul className="hidden lg:flex xl:flex md:flex gap-10">
-            <li className="hover:text-blue-500 transition-colors cursor-pointer">
-              About
-            </li>
-            <li className="hover:text-blue-500 transition-colors cursor-pointer">
-              Projects
-            </li>
-            <li className="hover:text-blue-500 transition-colors cursor-pointer">
-              Blog
-            </li>
-            <li className="hover:text-blue-500 transition-colors cursor-pointer">
-              Contact
-            </li>
+            <Link href="/home">
+              <li className="hover:text-blue-500 transition-colors cursor-pointer">
+                About
+              </li>
+            </Link>
+            <Link href="#portfolio-projects">
+              <li className="hover:text-blue-500 transition-colors cursor-pointer">
+                Projects
+              </li>
+            </Link>
+            <Link href="#portfolio-blogs">
+              <li className="hover:text-blue-500 transition-colors cursor-pointer">
+                Blog
+              </li>
+            </Link>
+            <Link href="#portfolio-contact">
+              <li className="hover:text-blue-500 transition-colors cursor-pointer">
+                Contact
+              </li>
+            </Link>
           </ul>
         </div>
       </div>

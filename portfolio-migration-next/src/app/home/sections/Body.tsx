@@ -13,7 +13,7 @@ const Body = () => {
   const title = "Hello! I'm Delba, a developer based in England.";
 
   return (
-    <div className="flex flex-col p-4 lg:p-4">
+    <div className="flex flex-col p-4 lg:p-4" id="portfolio-about">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center my-12 lg:mx-60">
         <div className="w-full">
           <h3 className="font-extrabold text-4xl">{title}</h3>

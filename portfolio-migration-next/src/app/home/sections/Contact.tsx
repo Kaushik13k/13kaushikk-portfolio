@@ -2,7 +2,7 @@ import React from "react";
 
 const Contact = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" id="portfolio-contact">
       <div className="flex justify-start items-center p-4 lg:mx-60 mb-12">
         <div className="w-[1300px]">
           <h3 className="text-2xl font-extrabold text-[#22200F]">

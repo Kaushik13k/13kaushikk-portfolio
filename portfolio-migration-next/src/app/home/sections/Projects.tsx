@@ -109,7 +109,10 @@ const Projects = () => {
   }, []);
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 lg:mx-60">
+    <div
+      className="flex flex-col justify-center items-center p-4 lg:mx-60"
+      id="portfolio-projects"
+    >
       <div className="relative w-full">
         <div className="absolute left-0 top-1/2 lg:-left-10">
           <FontAwesomeIcon

@@ -12,7 +12,10 @@ function Blogs() {
   //   console.log("clicked lisitng page.");
   // };
   return (
-    <div className="flex flex-col justify-center items-center p-4 lg:mx-60 my-12">
+    <div
+      className="flex flex-col justify-center items-center p-4 lg:mx-60 my-12"
+      id="portfolio-blogs"
+    >
       <div className="relative w-full">
         <h3 className="text-2xl font-extrabold text-[#22200F]">Blogs</h3>
         <p className="text-sm text-[#83816D] pt-2">
