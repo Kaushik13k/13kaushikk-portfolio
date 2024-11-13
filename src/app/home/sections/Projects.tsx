@@ -102,7 +102,7 @@ const useScrollControl = (containerRef: React.RefObject<HTMLDivElement>) => {
         container.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [updateButtonStates]);
+  }, [containerRef, updateButtonStates]);
 
   return {
     isLeftDisabled,
@@ -149,7 +149,7 @@ const Projects = () => {
         <div>
           <h3 className="text-2xl font-extrabold text-[#22200F]">Projects</h3>
           <p className="text-sm text-[#83816D] pt-2">
-            Some of the side projects I'm currently working on:
+            Some of the side projects Im currently working on:
           </p>
         </div>
 
