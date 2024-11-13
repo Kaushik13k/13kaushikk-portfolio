@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const Body = () => {
-  const title = "Hello! I'm Delba, a developer based in England.";
+  const title = "Hello! I'm Kaushik, a developer based in India.";
 
   return (
     <div className="flex flex-col p-4 lg:p-4">
@@ -36,10 +36,10 @@ const Body = () => {
             towards flexibility, clarity, and collaboration.
           </p>
           <br />
-          <p className="text-sm">
+          {/* <p className="text-sm">
             I'm currently looking for a new role as a developer.{" "}
             <span className="font-semibold">Hire me?</span>
-          </p>
+          </p> */}
           <div className="flex justify-start items-center mt-4 -ml-2">
             <FontAwesomeIcon icon={faLinkedinIn} className="mx-2 h-6 w-6" />
             <FontAwesomeIcon icon={faDev} className="mx-2 h-6 w-6" />
