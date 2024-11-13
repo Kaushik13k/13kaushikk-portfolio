@@ -1,8 +1,0 @@
-body {
-  font-family: "Poppins", sans-serif;
-}
-
-.bg-gradient-to-b {
-  background: linear-gradient(to bottom, #f5f0e1, #ffffff);
-  min-height: 100vh;
-}
