@@ -131,21 +131,32 @@ const Projects = () => {
         <div className="absolute left-0 top-1/2 lg:-left-10">
           <FontAwesomeIcon
             onClick={scrollLeft}
-            style={{ fontSize: "30px" }}
+            style={{
+              fontSize: "30px",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+            }}
             className={`bg-[#22200F] text-white p-2 rounded-full hover:bg-[#83816D] ${
-              isLeftDisabled ? "opacity-50 cursor-not-allowed" : ""
+              isLeftDisabled
+                ? "opacity-50 cursor-not-allowed"
+                : "cursor-pointer"
             }`}
             icon={faCircleArrowLeft}
-            // disabled={isLeftDisabled}
           />
         </div>
 
         <div className="absolute right-0 lg:-right-10 top-1/2">
           <FontAwesomeIcon
             onClick={scrollRight}
-            style={{ fontSize: "30px" }}
+            style={{
+              fontSize: "30px",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+            }}
             className={`bg-[#22200F] text-white p-2 rounded-full hover:bg-[#83816D] ${
-              isRightDisabled ? "opacity-50 cursor-not-allowed" : ""
+              isRightDisabled
+                ? "opacity-50 cursor-not-allowed"
+                : "cursor-pointer"
             }`}
             icon={faCircleArrowRight}
             // disabled={isRightDisabled}
