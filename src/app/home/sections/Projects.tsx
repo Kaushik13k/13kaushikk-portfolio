@@ -149,7 +149,7 @@ const Projects = () => {
         <div>
           <h3 className="text-2xl font-extrabold text-[#22200F]">Projects</h3>
           <p className="text-sm text-[#83816D] pt-2">
-            Some of the side projects Im currently working on:
+            Some of the side projects I&apos;m currently working on:
           </p>
         </div>
 

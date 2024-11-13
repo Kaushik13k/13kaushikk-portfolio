@@ -11,7 +11,8 @@ const Contact = () => {
           </h3>
 
           <p className="text-sm text-[#83816D] pt-2">
-            Do you have an idea you'd like to discuss? Feel free to reach me at
+            Do you have an idea you&apos;d like to discuss? Feel free to reach
+            me at
             <a href="#">
               <span className="text-red-700"> hello@kaushik13k.com</span>
             </a>{" "}
