@@ -1,13 +1,15 @@
 "use client";
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+
 import {
   faXbox,
   faPlaystation,
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
-import Image from "next/image";
 import gtaImage from "../../assets/gta5.jpg";
+
 import {
   faCircleArrowLeft,
   faCircleArrowRight,
@@ -59,40 +61,59 @@ const truncateDescription = (description: string) => {
   return description;
 };
 
-const useScrollControl = (containerRef: React.RefObject<HTMLDivElement>) => {
+const Projects = () => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isLeftDisabled, setIsLeftDisabled] = useState(true);
   const [isRightDisabled, setIsRightDisabled] = useState(false);
+  const [hoveredIcons, setHoveredIcons] = useState(
+    Array(games.length)
+      .fill(null)
+      .map(() => Array(3).fill(false))
+  );
 
-  const updateButtonStates = useCallback(() => {
-    if (containerRef.current) {
-      const scrollLeft = containerRef.current.scrollLeft;
-      const scrollWidth = containerRef.current.scrollWidth;
-      const clientWidth = containerRef.current.clientWidth;
+  const updateButtonStates = () => {
+    if (scrollContainerRef.current) {
+      const scrollLeft = scrollContainerRef.current.scrollLeft;
+      const scrollWidth = scrollContainerRef.current.scrollWidth;
+      const clientWidth = scrollContainerRef.current.clientWidth;
 
       setIsLeftDisabled(scrollLeft === 0);
       setIsRightDisabled(scrollLeft + clientWidth >= scrollWidth);
     }
-  }, [containerRef]);
-
+  };
   const scrollLeft = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: "smooth" });
       updateButtonStates();
     }
   };
 
   const scrollRight = () => {
-    if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 300, behavior: "smooth" });
       updateButtonStates();
     }
+  };
+
+  const handleIconHover = (
+    gameIndex: number,
+    iconIndex: number,
+    isHovered: boolean
+  ) => {
+    setHoveredIcons((prev) =>
+      prev.map((icons, i) =>
+        i === gameIndex
+          ? icons.map((hover, j) => (j === iconIndex ? isHovered : hover))
+          : icons
+      )
+    );
   };
 
   useEffect(() => {
     updateButtonStates();
 
     const handleScroll = () => updateButtonStates();
-    const container = containerRef.current;
+    const container = scrollContainerRef.current;
     if (container) {
       container.addEventListener("scroll", handleScroll);
     }
@@ -102,28 +123,10 @@ const useScrollControl = (containerRef: React.RefObject<HTMLDivElement>) => {
         container.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [containerRef, updateButtonStates]);
-
-  return {
-    isLeftDisabled,
-    isRightDisabled,
-    scrollLeft,
-    scrollRight,
-  };
-};
-
-const Projects = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
-  const { isLeftDisabled, isRightDisabled, scrollLeft, scrollRight } =
-    useScrollControl(scrollContainerRef);
+  }, []);
 
   return (
-    <div
-      className="flex flex-col justify-center items-center p-4 lg:mx-60"
-      id="portfolio-projects"
-    >
+    <div className="flex flex-col justify-center items-center p-4 lg:mx-60">
       <div className="relative w-full">
         <div className="absolute left-0 top-1/2 lg:-left-10">
           <FontAwesomeIcon
@@ -133,8 +136,10 @@ const Projects = () => {
               isLeftDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
             icon={faCircleArrowLeft}
+            // disabled={isLeftDisabled}
           />
         </div>
+
         <div className="absolute right-0 lg:-right-10 top-1/2">
           <FontAwesomeIcon
             onClick={scrollRight}
@@ -143,6 +148,7 @@ const Projects = () => {
               isRightDisabled ? "opacity-50 cursor-not-allowed" : ""
             }`}
             icon={faCircleArrowRight}
+            // disabled={isRightDisabled}
           />
         </div>
 
@@ -152,15 +158,14 @@ const Projects = () => {
             Some of the side projects I&apos;m currently working on:
           </p>
         </div>
-
         <div
           className="overflow-x-auto w-full hide-scrollbar"
           ref={scrollContainerRef}
         >
           <div className="flex space-x-6 md:space-x-10 pt-10">
-            {games.map((game, index) => (
+            {games.map((game, gameIndex) => (
               <div
-                key={index}
+                key={gameIndex}
                 className="flex flex-col items-start w-64 md:w-80 flex-shrink-0"
               >
                 <div className="bg-white rounded-lg shadow-md w-full">
@@ -168,6 +173,7 @@ const Projects = () => {
                     <div className="w-2 h-2 bg-[#676451] rounded-full mx-1 aspect-square"></div>
                     <div className="w-2 h-2 bg-[#676451] rounded-full mx-1 aspect-square"></div>
                     <div className="w-2 h-2 bg-[#676451] rounded-full mx-1 aspect-square"></div>
+
                     <div className="px-2">
                       <input
                         type="text"
@@ -176,23 +182,30 @@ const Projects = () => {
                       />
                     </div>
                   </div>
+
                   <div className="p-3">
                     <Image
                       src={gtaImage}
                       alt="gta img"
                       className="rounded-lg w-full h-35 object-cover"
                     />
+
                     <div className="mt-3 ml-1">
                       <div className="flex space-x-2">
                         {game.icons.map((icon, iconIndex) => (
                           <FontAwesomeIcon
                             key={iconIndex}
                             icon={icon}
-                            onMouseEnter={() => setHoveredIndex(index)}
-                            onMouseLeave={() => setHoveredIndex(null)}
+                            onMouseEnter={() =>
+                              handleIconHover(gameIndex, iconIndex, true)
+                            }
+                            onMouseLeave={() =>
+                              handleIconHover(gameIndex, iconIndex, false)
+                            }
                             style={{
-                              color:
-                                hoveredIndex === index ? "#22200F" : "#BFBCA7",
+                              color: hoveredIcons[gameIndex][iconIndex]
+                                ? "#22200F"
+                                : "#BFBCA7",
                             }}
                             className="w-5 h-5"
                           />
@@ -201,9 +214,10 @@ const Projects = () => {
                     </div>
                   </div>
                 </div>
+
                 <div className="mt-2 ml-1">
                   <h3 className="text-lg font-semibold text-[#22200F]">
-                    {index + 1}. {game.name}
+                    {gameIndex + 1}. {game.name}
                   </h3>
                   <p className="text-sm text-[#676451]">
                     {truncateDescription(game.description)}
