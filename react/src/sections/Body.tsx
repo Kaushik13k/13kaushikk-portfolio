@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 
 const Body = () => {
-  const title = "Hello! I'm Delba, a developer based in England.";
+  const title = "Hello! I'm Kaushik, a developer based in India.";
 
   return (
     <div className="flex flex-col p-4 lg:p-4">
