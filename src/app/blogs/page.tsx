@@ -82,7 +82,7 @@ function App() {
     currentPage * itemsPerPage
   );
 
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
@@ -91,7 +91,6 @@ function App() {
   return (
     <div>
       <Navbar />
-
       <div className="mx-60 my-10">
         <div className="grid grid-cols-3 gap-8">
           {currentData.map((card, index) => (
