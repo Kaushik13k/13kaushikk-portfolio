@@ -14,7 +14,7 @@ const Body = () => {
 
   return (
     <div className="flex flex-col p-4 lg:p-4" id="portfolio-about">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center lg:my-12 my-2 lg:mx-60">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center lg:my-6 my-2 lg:mx-60">
         <div className="w-full">
           <h3 className="font-extrabold text-4xl">{title}</h3>
           <br />
@@ -41,13 +41,42 @@ const Body = () => {
             <span className="font-semibold">Hire me?</span>
           </p> */}
           <div className="flex justify-start items-center mt-4 -ml-2">
-            <FontAwesomeIcon icon={faLinkedinIn} className="mx-2 h-6 w-6" />
-            <FontAwesomeIcon icon={faDev} className="mx-2 h-6 w-6" />
-            <FontAwesomeIcon icon={faXTwitter} className="mx-2 h-6 w-6" />
-            <FontAwesomeIcon
-              icon={faSquareInstagram}
-              className="mx-2 h-6 w-6"
-            />
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon
+                icon={faLinkedinIn}
+                className="mx-2 h-6 w-6 cursor-pointer"
+              />
+            </a>
+            <a href="https://dev.to/" target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon
+                icon={faDev}
+                className="mx-2 h-6 w-6 cursor-pointer"
+              />
+            </a>
+            <a
+              href="https://x.com/?lang=en"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon
+                icon={faXTwitter}
+                className="mx-2 h-6 w-6 cursor-pointer"
+              />
+            </a>
+            <a
+              href="https://www.instagram.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FontAwesomeIcon
+                icon={faSquareInstagram}
+                className="mx-2 h-6 w-6 cursor-pointer"
+              />
+            </a>
           </div>
         </div>
         <div className="lg:w-1/2 w-full flex justify-center lg:ml-12 mt-4 lg:mt-0">
