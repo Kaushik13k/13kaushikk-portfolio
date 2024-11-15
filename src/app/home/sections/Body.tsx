@@ -14,7 +14,7 @@ const Body = () => {
 
   return (
     <div className="flex flex-col p-4 lg:p-4" id="portfolio-about">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center my-12 lg:mx-60">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center lg:my-12 my-2 lg:mx-60">
         <div className="w-full">
           <h3 className="font-extrabold text-4xl">{title}</h3>
           <br />
