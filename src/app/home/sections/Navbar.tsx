@@ -13,8 +13,8 @@ const Navbar = () => {
   };
 
   return (
-    <div className="container mx-auto px-8">
-      <div className="text-[#676451] flex items-start justify-between py-6 lg:mx-28 md:mx-28 px-4 text-lg font-semibold">
+    <div className="container mx-auto lg:px-8">
+      <div className="text-[#676451] flex items-start justify-between py-6 lg:mx-28 md:mx-28 my-2 px-4 text-lg font-semibold">
         <Link href="/home">
           <div className="flex items-center">
             <h3>KAUSHIK K</h3>
