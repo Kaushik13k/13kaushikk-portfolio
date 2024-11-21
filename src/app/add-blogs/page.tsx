@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { CldImage } from "next-cloudinary";
 import { CldUploadWidget } from "next-cloudinary";
 import LogoutButton from "../components/LogoutButton";
+import Checkbox from "../components/Checkbox";
 
 const InputField = ({
   label,
@@ -45,68 +46,34 @@ const InputField = ({
 
 export default function App() {
   const [publicId, setPublicId] = useState<string>("");
-  const [portfolioName, setPortfolioName] = useState("");
-  const [portfolioTitle, setPortfolioTitle] = useState("");
-  const [portfolioAbout, setPortfolioAbout] = useState("");
-  const [portfolioEmail, setPortfolioEmail] = useState("");
-  const [portfolioImage, setPortfolioImage] = useState("");
-  const [instagram, setInstagram] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [github, setGithub] = useState("");
-  const [devTo, setDevTo] = useState("");
-  const [linkedin, setLinkedin] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("/api/about");
-        const data = response.data.data.userDetails;
-
-        setPortfolioName(data.portfolioName);
-        setPortfolioTitle(data.portfolioTitle);
-        setPortfolioAbout(data.portfolioAbout);
-        setPortfolioEmail(data.portfolioEmail);
-        setPortfolioImage(data.portfolioImage);
-        setInstagram(data.portfolioContact.instagram);
-        setTwitter(data.portfolioContact.twitter);
-        setGithub(data.portfolioContact.github);
-        setDevTo(data.portfolioContact.devTo);
-        setLinkedin(data.portfolioContact.linkedin);
-        setError(null);
-      } catch (err) {
-        if (axios.isAxiosError(err)) {
-          setError(err.response?.data?.message || "Failed to fetch data.");
-        } else {
-          setError("An unknown error occurred.");
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const [hostSource, setHostSource] = useState("");
+  const [blogDescription, setBlogDescription] = useState("");
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogImage, setBlogImage] = useState("");
+  const [avgReadTime, setAvgReadTime] = useState("");
+  const [publishDate, setPublishDate] = useState<string>(() => {
+    const today = new Date();
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(today);
+  });
+  //   const [isLoading, setIsLoading] = useState(true);
+  //   const [error, setError] = useState<string | null>(null);
 
   const handleSaveChanges = async () => {
     try {
       const payload = {
-        portfolioName,
-        portfolioTitle,
-        portfolioAbout,
-        portfolioEmail,
-        portfolioImage,
-        portfolioContact: {
-          instagram,
-          twitter,
-          github,
-          devTo,
-          linkedin,
-        },
+        publishDate,
+        hostSource,
+        blogDescription,
+        blogTitle,
+        blogImage,
+        avgReadTime,
       };
 
-      const response = await axios.post("/api/about", payload);
+      const response = await axios.post("/api/blogs", payload);
       if (response.status === 200) {
         alert("Portfolio updated successfully!");
       }
@@ -122,7 +89,7 @@ export default function App() {
   const handleUploadSuccess = (result: any) => {
     if (result.event === "success" && result.info?.public_id) {
       console.log("Upload successful:", result);
-      setPortfolioImage(result.info.public_id);
+      setBlogImage(result.info.public_id);
       setPublicId(result.info.public_id);
     } else {
       console.warn("Unexpected upload result:", result);
@@ -133,14 +100,15 @@ export default function App() {
     console.error("Upload error:", error);
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setHostSource(value);
+  };
 
-  const imageSrc = portfolioImage
-    ? `${portfolioImage}`
-    : publicId
-    ? `${publicId}`
-    : "";
+  //   if (isLoading) return <div>Loading...</div>;
+  //   if (error) return <div>Error: {error}</div>;
+
+  const imageSrc = blogImage ? `${blogImage}` : publicId ? `${publicId}` : "";
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative p-4">
@@ -149,37 +117,22 @@ export default function App() {
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
           Edit Portfolio
         </h2>
-
         <InputField
-          label="Name"
-          value={portfolioName}
-          onChange={(e) => setPortfolioName(e.target.value)}
-        />
-        <InputField
-          label="Title"
-          value={portfolioTitle}
-          onChange={(e) => setPortfolioTitle(e.target.value)}
-        />
-        <InputField
-          label="About"
-          value={portfolioAbout}
-          onChange={(e) => setPortfolioAbout(e.target.value)}
-          type="textarea"
-        />
-        <p className="text-xs text-red-600 -mt-4">
-          NOTE: If a new paragraph needed, with break in middle use: \n\n
-        </p>
-        <br />
-        <InputField
-          label="Email"
-          value={portfolioEmail}
-          onChange={(e) => setPortfolioEmail(e.target.value)}
+          label="Blog title"
+          value={blogTitle}
+          onChange={(e) => setBlogTitle(e.target.value)}
           type="email"
         />
-
+        <InputField
+          label="Blog description"
+          value={blogDescription}
+          onChange={(e) => setBlogDescription(e.target.value)}
+          type="textarea"
+        />
+        <br />
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600 mb-1">
-            Profile Image
+            Blog cover image
           </label>
           {imageSrc ? (
             <div className="lg:w-1/2 w-full flex justify-center lg:ml-12 mt-4 lg:mt-0 mb-4">
@@ -214,41 +167,34 @@ export default function App() {
             )}
           </CldUploadWidget>
         </div>
-
-        <h3 className="text-lg font-medium text-gray-700 mb-4">
-          Contact Links
-        </h3>
         <InputField
-          label="Instagram"
-          value={instagram}
-          onChange={(e) => setInstagram(e.target.value)}
-          type="url"
-        />
-        <InputField
-          label="Twitter"
-          value={twitter}
-          onChange={(e) => setTwitter(e.target.value)}
-          type="url"
-        />
-        <InputField
-          label="GitHub"
-          value={github}
-          onChange={(e) => setGithub(e.target.value)}
-          type="url"
-        />
-        <InputField
-          label="Dev.to"
-          value={devTo}
-          onChange={(e) => setDevTo(e.target.value)}
-          type="url"
-        />
-        <InputField
-          label="LinkedIn"
-          value={linkedin}
-          onChange={(e) => setLinkedin(e.target.value)}
+          label="Average read time"
+          value={avgReadTime}
+          onChange={(e) => setAvgReadTime(e.target.value)}
           type="url"
         />
 
+        <div className="mb-4">
+          <p className="text-sm mb-1">Host source</p>
+          <Checkbox
+            label="Medium"
+            isChecked={hostSource === "Medium"}
+            onChange={(e) => handleCheckboxChange(e)}
+          />
+          <br />
+          <Checkbox
+            label="Others"
+            isDisabled
+            isChecked={hostSource === "Others"}
+            onChange={(e) => handleCheckboxChange(e)}
+          />
+        </div>
+
+        <InputField
+          label="Publish Date"
+          value={publishDate}
+          onChange={(e) => setPublishDate(e.target.value)}
+        />
         <button
           type="button"
           onClick={handleSaveChanges}
