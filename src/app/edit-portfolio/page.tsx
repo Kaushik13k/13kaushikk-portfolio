@@ -17,12 +17,14 @@ export default function App() {
             Edit Body
           </button>
         </Link>
-        <button
-          type="submit"
-          className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"
-        >
-          Add Blogs
-        </button>
+        <Link href="/add-blogs">
+          <button
+            type="submit"
+            className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"
+          >
+            Add Blogs
+          </button>
+        </Link>
         <button
           type="submit"
           className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"

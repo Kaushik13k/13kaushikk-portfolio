@@ -11,6 +11,17 @@ import {
 
 const Body = () => {
   const title = "Hello! I'm Kaushik, a developer based in India.";
+  const textFromDb = `I love building tools that are user-friendly, simple and delightful.\n\n
+            I was a student at Lambda School where I spent 8 months learning the
+            fundamentals of front-end and back-end web development. I also
+            worked at Lambda where my role was split between helping scale
+            processes through automations and overseeing student teams.\n\nThrough
+            these experiences, I had the opportunity to work with both small and
+            large, specialised and cross-functional teams across different time
+            zones and developed a working style that leans towards flexibility,
+            clarity, and collaboration.`;
+
+  const paragraphs = textFromDb.split("\n\n");
 
   return (
     <div className="flex flex-col p-4 lg:p-4" id="portfolio-about">
@@ -18,23 +29,12 @@ const Body = () => {
         <div className="w-full">
           <h3 className="font-extrabold text-4xl">{title}</h3>
           <br />
-          <p className="text-sm">
-            I love building tools that are user-friendly, simple and delightful.
-          </p>
-          <br />
-          <p className="text-sm">
-            I was a student at Lambda School where I spent 8 months learning the
-            fundamentals of front-end and back-end web development. I also
-            worked at Lambda where my role was split between helping scale
-            processes through automations and overseeing student teams.
-          </p>
-          <br />
-          <p className="text-sm">
-            Through these experiences, I had the opportunity to work with both
-            small and large, specialised and cross-functional teams across
-            different time zones and developed a working style that leans
-            towards flexibility, clarity, and collaboration.
-          </p>
+          {paragraphs.map((paragraph, index) => (
+            <React.Fragment key={index}>
+              <p className="text-sm">{paragraph}</p>
+              {index < paragraphs.length - 1 && <br />}
+            </React.Fragment>
+          ))}
           <br />
           {/* <p className="text-sm">
             I'm currently looking for a new role as a developer.{" "}
