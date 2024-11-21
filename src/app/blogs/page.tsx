@@ -10,7 +10,6 @@ import {
 import Navbar from "../home/sections/Navbar";
 import Image from "next/image";
 
-// Array of card data
 const cardsData = [
   {
     title: "Unveiling the Secrets Beyond the Tourist Trails",
@@ -90,15 +89,17 @@ function App() {
 
   return (
     <div>
-      <Navbar />
-      <div className="mx-60 my-10">
-        <div className="grid grid-cols-3 gap-8">
+      <div className="px-4 sm:px-10 lg:mx-20">
+        <Navbar />
+      </div>
+      <div className="px-4 sm:px-10 lg:mx-60 my-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentData.map((card, index) => (
             <div key={index} className="w-full">
               <Image
                 src={card.imgSrc}
                 alt="card image"
-                className="w-full h-44 object-cover rounded-lg"
+                className="w-full h-40 sm:h-48 lg:h-52 object-cover rounded-lg"
               />
               <div className="mt-4">
                 <div className="flex space-x-2 text-gray-500 text-xs">
@@ -122,7 +123,6 @@ function App() {
           ))}
         </div>
 
-        {/* Pagination controls */}
         <div className="flex justify-center mt-10 space-x-2">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
@@ -133,7 +133,7 @@ function App() {
                 : "text-black"
             }`}
           >
-            <FontAwesomeIcon icon={faChevronLeft} /> {/* Left Arrow Icon */}
+            <FontAwesomeIcon icon={faChevronLeft} />
           </button>
 
           {[...Array(totalPages).keys()].map((page) => (
@@ -159,7 +159,7 @@ function App() {
                 : "text-black"
             }`}
           >
-            <FontAwesomeIcon icon={faChevronRight} /> {/* Right Arrow Icon */}
+            <FontAwesomeIcon icon={faChevronRight} />
           </button>
         </div>
       </div>
