@@ -1,16 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import gtaImage from "../../assets/gta5.jpg";
-// import { useNavigate } from "react-router-dom";
-// import Navbar from "./Navbar";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMedium } from "@fortawesome/free-brands-svg-icons";
 
 function Blogs() {
-  // const navigate = useNavigate();
-  // const handleClick = () => {
-  //   // navigate("/blog-listing");
-  //   console.log("clicked lisitng page.");
-  // };
   return (
     <div
       className="flex flex-col justify-center items-center p-4 lg:mx-60 my-12"
@@ -39,7 +34,15 @@ function Blogs() {
               shores of the French Riviera to the historic elegance of London
               and the tranquil beauty of the Bavarian Alps.
             </p>
-            <p className="text-xs mt-4">Oct 12, 2023</p>
+            <div className="flex flex-row items-center space-x-4 mt-4">
+              <p className="text-xs">Oct 12, 2023</p>
+              <span className="bg-gray-100 px-2 py-1 rounded-full flex items-center">
+                <FontAwesomeIcon icon={faMedium} className="text-gray-700" />
+              </span>
+              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-black">
+                15 mins read
+              </span>
+            </div>
           </div>
         </div>
 
@@ -58,7 +61,15 @@ function Blogs() {
               shores of the French Riviera to the historic elegance of London
               and the tranquil beauty of the Bavarian Alps.
             </p>
-            <p className="text-xs mt-4">Oct 12, 2023</p>
+            <div className="flex flex-row items-center space-x-4 mt-4">
+              <p className="text-xs">Oct 12, 2023</p>
+              <span className="bg-gray-100 px-2 py-1 rounded-full flex items-center">
+                <FontAwesomeIcon icon={faMedium} className="text-gray-700" />
+              </span>
+              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-black">
+                15 mins read
+              </span>
+            </div>
           </div>
         </div>
 
@@ -76,17 +87,22 @@ function Blogs() {
               Boutique hotels have mushroomed in Budapest in recent years, and
               on...
             </p>
-            <p className="text-xs mt-4">Oct 12, 2023</p>
+            <div className="flex flex-row items-center space-x-4 mt-4">
+              <p className="text-xs">Oct 12, 2023</p>
+              <span className="bg-gray-100 px-2 py-1 rounded-full flex items-center">
+                <FontAwesomeIcon icon={faMedium} className="text-gray-700" />
+              </span>
+              <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
+                15 mins read
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       <div className="mt-8">
         <Link href="/blogs">
-          <button
-            className="bg-[#22200F] hover:bg-[#83816D] text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-all duration-300"
-            // onClick={handleClick}
-          >
+          <button className="bg-[#22200F] hover:bg-[#83816D] text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-all duration-300">
             View All Blogs
           </button>
         </Link>
