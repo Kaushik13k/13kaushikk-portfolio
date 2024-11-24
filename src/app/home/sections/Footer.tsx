@@ -1,6 +1,5 @@
 import React from "react";
-// TODO:
-// 2. mobile view - change the size
+
 const Footer = () => {
   return (
     <div

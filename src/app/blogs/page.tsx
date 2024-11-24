@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Navbar from "../home/sections/Navbar";
 import Image from "next/image";
+import Footer from "../home/sections/Footer";
 
 const cardsData = [
   {
@@ -93,6 +94,9 @@ function App() {
         <Navbar />
       </div>
       <div className="px-4 sm:px-10 lg:mx-60 my-10">
+        <h1 className="flex items-center justify-center mb-10 text-5xl font-extrabold text-[#676451]">
+          Blogs
+        </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentData.map((card, index) => (
             <div key={index} className="w-full">
@@ -163,6 +167,7 @@ function App() {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
