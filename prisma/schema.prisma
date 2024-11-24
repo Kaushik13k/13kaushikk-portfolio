@@ -41,3 +41,12 @@ model Blogs {
   hostSource      String
   publishDate     String
 }
+
+model Projects {
+  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  projectTitle       String
+  projectDescription String
+  projectImage       String
+  projectArticle     String
+  publishDate        String
+}
