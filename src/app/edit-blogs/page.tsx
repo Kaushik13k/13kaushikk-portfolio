@@ -70,7 +70,7 @@ const CardsPage = () => {
               {currentData.map((item) => (
                 <div
                   key={item.id}
-                  onClick={() => handleCardClick(item.id)} // Trigger navigation
+                  onClick={() => handleCardClick(item.id)}
                   className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg cursor-pointer"
                 >
                   <h2 className="text-xl font-semibold mb-2">

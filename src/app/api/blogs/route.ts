@@ -39,6 +39,10 @@ export async function GET(request: NextRequest) {
       console.log("Fetching all blogs");
       blogDetails = await prisma.blogs.findMany();
     }
+    if (!blogDetails) {
+      console.error("id not found");
+      return NextResponse.json({ message: "id not found" }, { status: 404 });
+    }
 
     return NextResponse.json(
       { message: "Blog data fetch successful", data: blogDetails },

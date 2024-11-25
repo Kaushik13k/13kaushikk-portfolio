@@ -52,6 +52,8 @@ export default function App() {
       };
 
       fetchBlog();
+    } else {
+      setIsLoading(false);
     }
   }, [id]);
 
