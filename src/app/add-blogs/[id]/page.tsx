@@ -206,6 +206,12 @@ export default function App() {
               />
               <br />
               <Checkbox
+                label="Linkedin"
+                isChecked={hostSource === "Linkedin"}
+                onChange={(e) => handleCheckboxChange(e)}
+              />
+              <br />
+              <Checkbox
                 label="Others"
                 isDisabled
                 isChecked={hostSource === "Others"}
