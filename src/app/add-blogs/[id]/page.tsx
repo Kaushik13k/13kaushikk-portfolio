@@ -52,6 +52,8 @@ export default function App() {
       };
 
       fetchBlog();
+    } else {
+      setIsLoading(false);
     }
   }, [id]);
 
@@ -200,6 +202,12 @@ export default function App() {
               <Checkbox
                 label="Medium"
                 isChecked={hostSource === "Medium"}
+                onChange={(e) => handleCheckboxChange(e)}
+              />
+              <br />
+              <Checkbox
+                label="Linkedin"
+                isChecked={hostSource === "Linkedin"}
                 onChange={(e) => handleCheckboxChange(e)}
               />
               <br />

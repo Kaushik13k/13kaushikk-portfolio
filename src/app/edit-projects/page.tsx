@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface Blog {
   id: string;
@@ -13,20 +14,15 @@ const CardsPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [projectData, setProjectData] = useState<Blog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(projectData.length / itemsPerPage);
-  const currentData = projectData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/projects");
-        const projData = response.data.data;
-        setProjectData(projData.projectDetails);
+        const data = response.data.data;
+        const projData = data.projectDetails;
+        setProjectData(projData);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           setError(err.response?.data?.message || "Failed to fetch data.");
@@ -41,12 +37,23 @@ const CardsPage = () => {
     fetchData();
   }, []);
 
+  const itemsPerPage = 8;
+  const totalPages = Math.ceil(projectData.length / itemsPerPage);
+  const currentData = projectData.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const handlePrevious = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);
   };
 
   const handleNext = () => {
     if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+
+  const handleCardClick = (id: string) => {
+    router.push(`/add-projects/${id}`);
   };
 
   return (
@@ -65,7 +72,8 @@ const CardsPage = () => {
               {currentData.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg"
+                  onClick={() => handleCardClick(item.id)}
+                  className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg cursor-pointer"
                 >
                   <h2 className="text-xl font-semibold mb-2">
                     {item.projectTitle}
