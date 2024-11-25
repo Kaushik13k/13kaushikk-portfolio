@@ -43,10 +43,11 @@ model Blogs {
 }
 
 model Projects {
-  id                 String @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
   projectTitle       String
   projectDescription String
   projectImage       String
   projectArticle     String
   publishDate        String
+  inProgress         Boolean
 }
