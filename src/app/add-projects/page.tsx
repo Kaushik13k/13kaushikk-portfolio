@@ -14,6 +14,7 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 
 export default function MdeRenderer() {
   const [publicId, setPublicId] = useState<string>("");
+  const [inProgress, setInProgress] = useState(false);
   const [projectArticle, setProjectArticle] = useState<string>("");
   const [projectTitle, setProjectTitle] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
@@ -45,6 +46,7 @@ export default function MdeRenderer() {
         projectDescription,
         projectTitle,
         projectArticle,
+        inProgress,
       };
 
       const response = await axios.post("/api/projects", payload);
@@ -129,9 +131,15 @@ export default function MdeRenderer() {
           )}
         </CldUploadWidget>
       </div>
-
       <p className="text-sm">Project Article</p>
       <SimpleMDE value={projectArticle} onChange={handleChange} />
+      <p className="text-sm text-red-400">Please Select the below checkbox</p>
+      <input
+        type="checkbox"
+        onChange={(e) => setInProgress(e.target.checked ? true : false)}
+        className="mb-10"
+      />{" "}
+      In-Progress ?
       <InputField
         label="Publish Date"
         value={publishDate}

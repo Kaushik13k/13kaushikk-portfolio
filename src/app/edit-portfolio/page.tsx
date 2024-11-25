@@ -17,7 +17,7 @@ export default function App() {
             Edit Body
           </button>
         </Link>
-        <Link href="/add-blogs">
+        <Link href="/add-blogs/new">
           <button
             type="submit"
             className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"
@@ -25,12 +25,30 @@ export default function App() {
             Add Blogs
           </button>
         </Link>
+        <Link href="/add-projects">
+          <button
+            type="submit"
+            className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"
+          >
+            Add Projects
+          </button>
+        </Link>
+        <Link href="/edit-blogs">
+          <button
+            type="submit"
+            className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"
+          >
+            Edit Blogs
+          </button>
+        </Link>
+        {/* <Link href="/add-projects"> */}
         <button
           type="submit"
           className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"
         >
-          Add Projects
+          Edit Projects
         </button>
+        {/* </Link> */}
       </div>
     </div>
   );
