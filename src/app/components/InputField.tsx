@@ -4,6 +4,7 @@ export const InputField = ({
   onChange,
   type = "text",
   placeholder = "",
+  errorMessage = "",
 }: {
   label: string;
   value: string;
@@ -12,6 +13,7 @@ export const InputField = ({
   ) => void;
   type?: string;
   placeholder?: string;
+  errorMessage?: string;
 }) => (
   <div className="mb-4">
     <label className="block text-sm font-medium text-gray-600 mb-1">
@@ -32,6 +34,9 @@ export const InputField = ({
         className="w-full px-3 py-2 border rounded-md"
         placeholder={placeholder}
       />
+    )}
+    {errorMessage && (
+      <p className="text-xs text-red-600 mt-1">{errorMessage}</p>
     )}
   </div>
 );

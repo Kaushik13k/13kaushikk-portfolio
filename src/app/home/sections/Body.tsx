@@ -83,7 +83,7 @@ const Body = () => {
           <Image
             src={gtaImage}
             alt="gta img"
-            className="rounded-lg w-full h-auto lg:h-96 lg:max-w-full object-cover shadow-2xl"
+            className="rounded-lg w-72 h-96 max-w-full object-cover shadow-2xl"
           />
         </div>
       </div>
