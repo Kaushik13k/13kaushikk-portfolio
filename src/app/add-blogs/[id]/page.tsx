@@ -32,7 +32,7 @@ export default function App() {
     if (id != "new") {
       const fetchBlog = async () => {
         try {
-          const response = await axios.get(`/api/blogs?id=${id}`);
+          const response = await axios.get(`/api/v1/blogs?id=${id}`);
           const existingBlog = response.data?.data;
           if (existingBlog) {
             setPublicId(existingBlog.blogImage);
@@ -68,7 +68,7 @@ export default function App() {
         avgReadTime,
       };
 
-      const response = await axios.post("/api/blogs", payload);
+      const response = await axios.post("/api/v1/blogs", payload);
       if (response.status === 200) {
         alert("Blog added successfully!");
       }
@@ -93,7 +93,7 @@ export default function App() {
         avgReadTime,
       };
 
-      const response = await axios.put("/api/blogs", payload);
+      const response = await axios.put("/api/v1/blogs", payload);
       if (response.status === 200) {
         alert("Blog updated successfully!");
       }

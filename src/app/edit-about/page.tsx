@@ -61,7 +61,7 @@ export default function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/about");
+        const response = await axios.get("/api/v1/about");
         const data = response.data.data.userDetails;
 
         setPortfolioName(data.portfolioName);
@@ -106,7 +106,7 @@ export default function App() {
         },
       };
 
-      const response = await axios.post("/api/about", payload);
+      const response = await axios.post("/api/v1/about", payload);
       if (response.status === 200) {
         alert("Portfolio updated successfully!");
       }

@@ -19,7 +19,7 @@ const CardsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/projects");
+        const response = await axios.get("/api/v1/projects");
         const data = response.data.data;
         const projData = data.projectDetails;
         setProjectData(projData);
