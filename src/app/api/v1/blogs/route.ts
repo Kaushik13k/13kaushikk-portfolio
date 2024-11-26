@@ -1,18 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../../../helpers/server-helpers";
-import prisma from "../../../../prisma/client";
-import ProjectSchema from "../../api/projects/ProjectValidationSchema";
-import { verifySessionToken } from "../../../../helpers/middleware";
+import { connectToDatabase } from "../../../../../helpers/server-helpers";
+import prisma from "../../../../../prisma/client";
+import BlogSchema from "./BlogValidationSchema";
+import { verifySessionToken } from "../../../../../helpers/middleware";
 
 export async function GET(request: NextRequest) {
   try {
-    console.log("inside the get project request");
+    console.log("Inside the GET blog request");
     const isValid = verifySessionToken(request);
 
     if (!isValid) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    console.log("auth passed");
+    console.log("Auth passed");
 
     await connectToDatabase();
     console.log("Database connected");
@@ -20,32 +20,32 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    let projectDetails;
+    let blogDetails;
     if (id) {
-      console.log(`Fetching project with id: ${id}`);
+      console.log(`Fetching blog with id: ${id}`);
 
-      projectDetails = await prisma.projects.findUnique({
+      blogDetails = await prisma.blogs.findUnique({
         where: { id: id },
       });
 
-      if (!projectDetails) {
-        console.error("Project not found");
+      if (!blogDetails) {
+        console.error("Blog not found");
         return NextResponse.json(
-          { message: "Project not found" },
+          { message: "Blog not found" },
           { status: 404 }
         );
       }
     } else {
-      console.log("Fetching all Project");
-      projectDetails = await prisma.projects.findMany();
+      console.log("Fetching all blogs");
+      blogDetails = await prisma.blogs.findMany();
     }
-
-    if (!projectDetails) {
+    if (!blogDetails) {
       console.error("id not found");
       return NextResponse.json({ message: "id not found" }, { status: 404 });
     }
+
     return NextResponse.json(
-      { message: "Project data fetch successful", data: { projectDetails } },
+      { message: "Blog data fetch successful", data: blogDetails },
       { status: 200 }
     );
   } catch (error) {
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("inside the post project request");
+    console.log("inside the post blog request");
     const isValid = verifySessionToken(request);
     if (!isValid) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -67,23 +67,23 @@ export async function POST(request: NextRequest) {
     console.log("auth passed");
     const body = await request.json();
     console.log("the body is:", body);
-    const validation = ProjectSchema.safeParse(body);
+    const validation = BlogSchema.safeParse(body);
     if (!validation.success)
       return NextResponse.json(validation.error.format(), { status: 400 });
 
     await connectToDatabase();
     console.log("Database connected");
 
-    const projectDetails = await prisma.projects.create({ data: body });
-    console.log("added the project: ", projectDetails);
+    const blogDetails = await prisma.blogs.create({ data: body });
+    console.log("added the blog: ", blogDetails);
 
-    if (!projectDetails) {
+    if (!blogDetails) {
       console.error("User not found");
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json(
-      { message: "Project added successfully", Project: { projectDetails } },
+      { message: "Blog added successfully", Blog: { blogDetails } },
       { status: 200 }
     );
   } catch (error) {
@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    console.log("Inside the PUT project request");
+    console.log("Inside the PUT blog request");
 
     const isValid = verifySessionToken(request);
     if (!isValid) {
@@ -108,7 +108,7 @@ export async function PUT(request: NextRequest) {
     const body = await request.json();
     console.log("The body is:", body);
 
-    const validation = ProjectSchema.safeParse(body);
+    const validation = BlogSchema.safeParse(body);
     if (!validation.success) {
       return NextResponse.json(validation.error.format(), { status: 400 });
     }
@@ -119,19 +119,19 @@ export async function PUT(request: NextRequest) {
     const { id, ...updateData } = body;
     if (!id) {
       return NextResponse.json(
-        { message: "project ID is required" },
+        { message: "Blog ID is required" },
         { status: 400 }
       );
     }
 
-    const updatedBlog = await prisma.projects.update({
+    const updatedBlog = await prisma.blogs.update({
       where: { id },
       data: updateData,
     });
-    console.log("Updated the project: ", updatedBlog);
+    console.log("Updated the blog: ", updatedBlog);
 
     return NextResponse.json(
-      { message: "project updated successfully", Blog: updatedBlog },
+      { message: "Blog updated successfully", Blog: updatedBlog },
       { status: 200 }
     );
   } catch (error) {

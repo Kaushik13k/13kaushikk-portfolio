@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifySessionToken } from "../../../../helpers/middleware";
+import { verifySessionToken } from "../../../../../helpers/middleware";
 
 export async function GET(request: NextRequest) {
   const isValid = verifySessionToken(request);

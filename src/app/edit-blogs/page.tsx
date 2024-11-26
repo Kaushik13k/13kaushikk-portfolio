@@ -19,7 +19,7 @@ const CardsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/blogs");
+        const response = await axios.get("/api/v1/blogs");
         console.log("the records are:", response);
         const blgData = response.data.data;
         setBlogData(blgData);

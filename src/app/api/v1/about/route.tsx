@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifySessionToken } from "../../../../helpers/middleware";
-import { connectToDatabase } from "../../../../helpers/server-helpers";
-import prisma from "../../../../prisma/client";
+import { verifySessionToken } from "../../../../../helpers/middleware";
+import { connectToDatabase } from "../../../../../helpers/server-helpers";
+import prisma from "../../../../../prisma/client";
 import AboutSchema from "./AboutValidationSchema";
 
 export async function GET(request: NextRequest) {

@@ -14,7 +14,7 @@ export default function App() {
   useEffect(() => {
     const checkToken = async () => {
       try {
-        const response = await axios.get("/api/validate-token", {
+        const response = await axios.get("/api/v1/validate-token", {
           headers: {
             "Content-Type": "application/json",
           },
@@ -47,7 +47,7 @@ export default function App() {
         password,
       };
 
-      const response = await axios.post("api/login", payload, {
+      const response = await axios.post("api/v1/login", payload, {
         headers: {
           "Content-Type": "application/json",
         },

@@ -42,7 +42,7 @@ export default function MdeRenderer() {
     if (id != "new") {
       const fetchProject = async () => {
         try {
-          const response = await axios.get(`/api/projects?id=${id}`);
+          const response = await axios.get(`/api/v1/projects?id=${id}`);
           const existingProject = response.data?.data?.projectDetails;
           if (existingProject) {
             setPublicId(existingProject.blogImage);
@@ -83,7 +83,7 @@ export default function MdeRenderer() {
         inProgress,
       };
 
-      const response = await axios.post("/api/projects", payload);
+      const response = await axios.post("/api/v1/projects", payload);
       if (response.status === 200) {
         alert("Project Added successfully!");
       }
@@ -123,7 +123,7 @@ export default function MdeRenderer() {
         inProgress,
       };
 
-      const response = await axios.put("/api/projects", payload);
+      const response = await axios.put("/api/v1/projects", payload);
       if (response.status === 200) {
         alert("Project updated successfully!");
       }

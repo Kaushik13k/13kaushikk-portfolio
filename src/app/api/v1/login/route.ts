@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../../../helpers/server-helpers";
-import prisma from "../../../../prisma/client";
+import { connectToDatabase } from "../../../../../helpers/server-helpers";
+import prisma from "../../../../../prisma/client";
 import * as crypto from "crypto";
-import * as jwt from "jsonwebtoken";
+import logger from "../../../../../logger";
+import { generateAuthToken } from "../utils/jwt";
 import LoginSchema from "./LoginValidationSchema";
-import { JWT_SECRET, SESSION_DURATION } from "../../constants/jwt";
+import { SESSION_DURATION } from "../../../constants/jwt";
 
 function verifyPassword(
   password: string,
@@ -60,15 +61,14 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       );
     }
-    if (!JWT_SECRET) {
+    const token = generateAuthToken(body.username);
+    if (!token) {
+      logger.error("Could'nt generate token.");
       return NextResponse.json(
-        { message: "Invalid jwt-token" },
-        { status: 401 }
+        { message: "Could'nt create the token!" },
+        { status: 400 }
       );
     }
-    const token = jwt.sign({ username }, JWT_SECRET, {
-      expiresIn: SESSION_DURATION,
-    });
 
     const response = NextResponse.json(
       { message: "Login successful", user: { username } },

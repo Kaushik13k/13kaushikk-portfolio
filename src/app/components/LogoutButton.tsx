@@ -8,7 +8,7 @@ const LogoutButton = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post("/api/logout");
+      const response = await axios.post("/api/v1/logout");
       console.log("Logout successful:", response.status);
 
       if (response.status === 200) {
