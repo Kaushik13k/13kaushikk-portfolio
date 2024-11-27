@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import logger from "@logger";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -22,7 +23,7 @@ const CardsPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/v1/blogs");
-        console.log("the records are:", response);
+        logger.info("the records are:", response);
         const blgData = response.data.data;
         setBlogData(blgData);
       } catch (err) {

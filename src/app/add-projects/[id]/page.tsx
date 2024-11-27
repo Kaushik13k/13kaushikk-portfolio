@@ -69,7 +69,6 @@ export default function MdeRenderer() {
 
   const handleChange = (text: string) => {
     setProjectArticle(text);
-    console.log(projectArticle);
   };
 
   const handleSaveChanges = async () => {
@@ -99,16 +98,14 @@ export default function MdeRenderer() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUploadSuccess = (result: any) => {
     if (result.event === "success" && result.info?.public_id) {
-      console.log("Upload successful:", result);
       setProjectImage(result.info.public_id);
       setPublicId(result.info.public_id);
     } else {
-      console.warn("Unexpected upload result:", result);
     }
   };
 
   const handleUploadError = (error: unknown) => {
-    console.error("Upload error:", error);
+    return;
   };
 
   const handleEditChanges = async () => {

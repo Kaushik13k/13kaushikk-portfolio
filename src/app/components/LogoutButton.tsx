@@ -1,7 +1,8 @@
 "use client";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import React from "react";
+import logger from "@logger";
+import { useRouter } from "next/navigation";
 
 const LogoutButton = () => {
   const router = useRouter();
@@ -9,15 +10,15 @@ const LogoutButton = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post("/api/v1/logout");
-      console.log("Logout successful:", response.status);
+      logger.info("Logout successful:");
 
       if (response.status === 200) {
         router.push("/login");
         return;
       }
-      console.error("Failed to logout:");
+      logger.error("Failed to logout:");
     } catch (error: unknown) {
-      console.error("Failed to logout:", error);
+      logger.error("Failed to logout:", error);
     }
   };
 

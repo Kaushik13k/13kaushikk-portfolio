@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import logger from "@logger";
 
 export default function App() {
   const [user, setUsername] = useState("");
@@ -27,7 +28,7 @@ export default function App() {
           router.push("/login");
         }
       } catch (error) {
-        console.error("Token validation failed:", error);
+        logger.error("Token validation failed:", error);
       }
     };
 
@@ -53,7 +54,7 @@ export default function App() {
         },
       });
 
-      console.log("Login successful:", response.status);
+      logger.info("Login successful:", response.status);
       setSuccess("Login successful!");
 
       router.push("/edit-portfolio");
