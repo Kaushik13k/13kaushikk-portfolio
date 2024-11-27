@@ -1,10 +1,10 @@
+import Image from "next/image";
 import LeftSidebar from "./LeftSideBar";
 import RightSidebar from "./RightSideBar";
-import gtaImage from "../assets/gta5.jpg";
-import MarkdownRenderer from "../components/MarkdownRenderer";
-import Image from "next/image";
-import Navbar from "../home/sections/Navbar";
-import Footer from "../home/sections/Footer";
+import gtaImage from "@app/assets/gta5.jpg";
+import Navbar from "@app/home/sections/Navbar";
+import Footer from "@app/home/sections/Footer";
+import MarkdownRenderer from "@app/components/MarkdownRenderer";
 
 const markdownContent = `
 ## Features-1
@@ -27,11 +27,11 @@ console.log(aJsVariable);
 
 function App() {
   const extractHeadings = (content: string): string[] => {
-    const regex = /^(#{1,6})\s*(.+)$/gm; // Match all heading levels (1 to 6)
+    const regex = /^(#{1,6})\s*(.+)$/gm;
     const matches = content.match(regex);
 
     if (matches) {
-      return matches.map((match) => match.replace(/^(#{1,6})\s*/, "")); // Remove the `#` and spaces
+      return matches.map((match) => match.replace(/^(#{1,6})\s*/, ""));
     }
 
     return [];

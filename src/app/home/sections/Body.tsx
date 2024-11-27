@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import gtaImage from "../../assets/gta5.jpg";
+import profileImgage from "@app/assets/profile.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLinkedinIn,
@@ -81,7 +81,7 @@ const Body = () => {
         </div>
         <div className="lg:w-1/2 w-full flex justify-center lg:ml-12 mt-4 lg:mt-0">
           <Image
-            src={gtaImage}
+            src={profileImgage}
             alt="gta img"
             className="rounded-lg w-72 h-96 max-w-full object-cover shadow-2xl"
           />

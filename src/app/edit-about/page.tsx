@@ -3,22 +3,23 @@ import axios from "axios";
 import { CldImage } from "next-cloudinary";
 import { useState, useEffect } from "react";
 import { CldUploadWidget } from "next-cloudinary";
-import LogoutButton from "../components/LogoutButton";
-import { InputField } from "../components/InputField";
-import { ABOUT_MAX_LENGTH, TITLE_MAX_LENGTH } from "../constants/profile";
+import { InputField } from "@app/components/InputField";
+import LogoutButton from "@app/components/LogoutButton";
+import { ABOUT_MAX_LENGTH, TITLE_MAX_LENGTH } from "@app/constants/profile";
 
 export default function App() {
+  const [devTo, setDevTo] = useState("");
+  const [github, setGithub] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [instagram, setInstagram] = useState("");
   const [publicId, setPublicId] = useState<string>("");
   const [portfolioName, setPortfolioName] = useState("");
   const [portfolioTitle, setPortfolioTitle] = useState("");
   const [portfolioAbout, setPortfolioAbout] = useState("");
   const [portfolioEmail, setPortfolioEmail] = useState("");
   const [portfolioImage, setPortfolioImage] = useState("");
-  const [instagram, setInstagram] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [github, setGithub] = useState("");
-  const [devTo, setDevTo] = useState("");
-  const [linkedin, setLinkedin] = useState("");
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

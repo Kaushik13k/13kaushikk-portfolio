@@ -1,5 +1,5 @@
-import LogoutButton from "../components/LogoutButton";
 import Link from "next/link";
+import LogoutButton from "@app/components/LogoutButton";
 
 export default function App() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { messages } from "../constants/greetings";
+import { messages } from "@app/constants/greetings";
 import CircleArrowRight from "./components/CircleArrowRight";
 
 const Welcome = () => {

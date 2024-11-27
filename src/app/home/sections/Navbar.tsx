@@ -1,9 +1,9 @@
 "use client";
+import Link from "next/link";
 import React, { useState } from "react";
+import * as Collapsible from "@radix-ui/react-collapsible";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-import * as Collapsible from "@radix-ui/react-collapsible";
-import Link from "next/link";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

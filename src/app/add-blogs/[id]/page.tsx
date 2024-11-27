@@ -1,24 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import logger from "@logger";
 import { CldImage } from "next-cloudinary";
-import { CldUploadWidget } from "next-cloudinary";
-import LogoutButton from "../../components/LogoutButton";
-import Checkbox from "../../components/Checkbox";
-import { InputField } from "../../components/InputField";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import Checkbox from "@app/components/Checkbox";
+import { CldUploadWidget } from "next-cloudinary";
+import LogoutButton from "@app/components/LogoutButton";
+import { InputField } from "@app/components/InputField";
 
 export default function App() {
   const { id } = useParams();
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogImage, setBlogImage] = useState("");
+  const [hostSource, setHostSource] = useState("");
+  const [avgReadTime, setAvgReadTime] = useState("");
+  const [publicId, setPublicId] = useState<string>("");
+  const [blogDescription, setBlogDescription] = useState("");
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [publicId, setPublicId] = useState<string>("");
-  const [hostSource, setHostSource] = useState("");
-  const [blogDescription, setBlogDescription] = useState("");
-  const [blogTitle, setBlogTitle] = useState("");
-  const [blogImage, setBlogImage] = useState("");
-  const [avgReadTime, setAvgReadTime] = useState("");
   const [publishDate, setPublishDate] = useState<string>(() => {
     const today = new Date();
     return new Intl.DateTimeFormat("en-US", {
@@ -29,12 +31,14 @@ export default function App() {
   });
 
   useEffect(() => {
-    if (id != "new") {
+    if (id !== "new") {
       const fetchBlog = async () => {
         try {
+          logger.info(`Fetching blog with ID: ${id}`);
           const response = await axios.get(`/api/v1/blogs?id=${id}`);
           const existingBlog = response.data?.data;
           if (existingBlog) {
+            logger.info("Blog found, setting state");
             setPublicId(existingBlog.blogImage);
             setHostSource(existingBlog.hostSource);
             setBlogDescription(existingBlog.blogDescription);
@@ -43,22 +47,34 @@ export default function App() {
             setAvgReadTime(existingBlog.avgReadTime);
             setPublishDate(existingBlog.publishDate);
           }
-        } catch {
-          alert("The Id doesnt exist. Please check-id or enter new record");
-          setError("The Id doesnt exist. Please check-id or enter new record");
+        } catch (err) {
+          logger.error("Error fetching blog:", err);
+          alert("The Id doesn't exist. Please check-id or enter new record");
+          setError("The Id doesn't exist. Please check-id or enter new record");
         } finally {
+          logger.info("Blog fetch completed.");
           setIsLoading(false);
         }
       };
 
       fetchBlog();
     } else {
+      logger.info("Creating a new blog entry.");
       setIsLoading(false);
     }
   }, [id]);
 
   const handleSaveChanges = async () => {
     try {
+      logger.info("Saving new blog entry with payload:", {
+        publishDate,
+        hostSource,
+        blogDescription,
+        blogTitle,
+        blogImage,
+        avgReadTime,
+      });
+
       const payload = {
         publishDate,
         hostSource,
@@ -71,8 +87,10 @@ export default function App() {
       const response = await axios.post("/api/v1/blogs", payload);
       if (response.status === 200) {
         alert("Blog added successfully!");
+        logger.info("Blog added successfully:", response.data);
       }
     } catch (err) {
+      logger.error("Error saving blog:", err);
       if (axios.isAxiosError(err)) {
         alert(err.response?.data?.message || "Failed to update Blog.");
       } else {
@@ -83,6 +101,15 @@ export default function App() {
 
   const handleEditChanges = async () => {
     try {
+      logger.info("Editing blog with ID:", id, "and payload:", {
+        publishDate,
+        hostSource,
+        blogDescription,
+        blogTitle,
+        blogImage,
+        avgReadTime,
+      });
+
       const payload = {
         id,
         publishDate,
@@ -96,8 +123,10 @@ export default function App() {
       const response = await axios.put("/api/v1/blogs", payload);
       if (response.status === 200) {
         alert("Blog updated successfully!");
+        logger.info("Blog updated successfully:", response.data);
       }
     } catch (err) {
+      logger.error("Error editing blog:", err);
       if (axios.isAxiosError(err)) {
         alert(err.response?.data?.message || "Failed to update Blog.");
       } else {
@@ -105,23 +134,25 @@ export default function App() {
       }
     }
   };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUploadSuccess = (result: any) => {
     if (result.event === "success" && result.info?.public_id) {
-      console.log("Upload successful:", result);
+      logger.info("Image upload successful:", result);
       setBlogImage(result.info.public_id);
       setPublicId(result.info.public_id);
     } else {
-      console.warn("Unexpected upload result:", result);
+      logger.warn("Unexpected upload result:", result);
     }
   };
 
   const handleUploadError = (error: unknown) => {
-    console.error("Upload error:", error);
+    logger.error("Image upload error:", error);
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    logger.info("Host source changed to:", value);
     setHostSource(value);
   };
 
