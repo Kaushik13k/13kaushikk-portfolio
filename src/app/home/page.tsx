@@ -1,10 +1,11 @@
 "use client";
-import Footer from "./sections/Footer";
-import Body from "./sections/Body";
-import Navbar from "./sections/Navbar";
-import Projects from "./sections/Projects";
-import Contact from "./sections/Contact";
-import Blogs from "./sections/Blogs";
+import Body from "@app/home/sections/Body";
+import Blogs from "@app/home/sections/Blogs";
+import Navbar from "@app/home/sections/Navbar";
+import Footer from "@app/home/sections/Footer";
+import Contact from "@app/home/sections/Contact";
+import Projects from "@app/home/sections/Projects";
+
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";

@@ -1,15 +1,15 @@
 "use client";
+import Image from "next/image";
 import React, { useState } from "react";
-import gtaImage from "../assets/gta5.jpg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import gtaImage from "@app/assets/gta5.jpg";
+import Navbar from "@app/home/sections/Navbar";
+import Footer from "@app/home/sections/Footer";
 import { faMedium } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../home/sections/Navbar";
-import Image from "next/image";
-import Footer from "../home/sections/Footer";
 
 const cardsData = [
   {

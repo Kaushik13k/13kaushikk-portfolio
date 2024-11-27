@@ -1,9 +1,9 @@
 import React from "react";
-import Image from "next/image";
-import gtaImage from "../../assets/gta5.jpg";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+import gtaImage from "@app/assets/gta5.jpg";
 import { faMedium } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Blogs() {
   return (

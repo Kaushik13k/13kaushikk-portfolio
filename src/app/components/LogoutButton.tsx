@@ -13,6 +13,7 @@ const LogoutButton = () => {
 
       if (response.status === 200) {
         router.push("/login");
+        return;
       }
       console.error("Failed to logout:");
     } catch (error: unknown) {

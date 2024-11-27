@@ -12,8 +12,10 @@ interface Blog {
 const CardsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [blogData, setBlogData] = useState<Blog[]>([]);
+
   const [currentPage, setCurrentPage] = useState(1);
+  const [blogData, setBlogData] = useState<Blog[]>([]);
+
   const router = useRouter();
 
   useEffect(() => {

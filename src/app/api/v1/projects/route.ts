@@ -1,144 +1,147 @@
+import prisma from "@prisma";
+import logger from "@logger";
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDatabase } from "../../../../../helpers/server-helpers";
-import prisma from "../../../../../prisma/client";
-import ProjectSchema from "./ProjectValidationSchema";
-import { verifySessionToken } from "../../../../../helpers/middleware";
+import { verifySessionToken } from "@helpers/middleware";
+import { connectToDatabase } from "@helpers/server-helpers";
+import ProjectSchema from "@api/projects/ProjectValidationSchema";
 
 export async function GET(request: NextRequest) {
   try {
-    console.log("inside the get project request");
-    const isValid = verifySessionToken(request);
+    logger.info("Inside GET project request.");
 
+    const isValid = verifySessionToken(request);
     if (!isValid) {
+      logger.error("Session token validation failed.");
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    console.log("auth passed");
+    logger.info("Session token validated successfully.");
 
     await connectToDatabase();
-    console.log("Database connected");
+    logger.info("Database connected.");
 
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
     let projectDetails;
     if (id) {
-      console.log(`Fetching project with id: ${id}`);
-
+      logger.info(`Fetching project with id: ${id}`);
       projectDetails = await prisma.projects.findUnique({
-        where: { id: id },
+        where: { id },
       });
 
       if (!projectDetails) {
-        console.error("Project not found");
+        logger.error(`Project with id: ${id} not found.`);
         return NextResponse.json(
           { message: "Project not found" },
           { status: 404 }
         );
       }
     } else {
-      console.log("Fetching all Project");
+      logger.info("Fetching all projects.");
       projectDetails = await prisma.projects.findMany();
     }
 
-    if (!projectDetails) {
-      console.error("id not found");
-      return NextResponse.json({ message: "id not found" }, { status: 404 });
-    }
     return NextResponse.json(
-      { message: "Project data fetch successful", data: { projectDetails } },
+      { message: "Project data fetch successful", data: projectDetails },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error occurred:", error);
+    logger.error("Error occurred while fetching project:", error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
   } finally {
     await prisma.$disconnect();
-    console.log("Database disconnected");
+    logger.info("Database disconnected.");
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("inside the post project request");
+    logger.info("Inside POST project request.");
+
     const isValid = verifySessionToken(request);
     if (!isValid) {
+      logger.error("Session token validation failed.");
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    console.log("auth passed");
+    logger.info("Session token validated successfully.");
+
     const body = await request.json();
-    console.log("the body is:", body);
+    logger.info("Received request body:", body);
+
     const validation = ProjectSchema.safeParse(body);
-    if (!validation.success)
+    if (!validation.success) {
+      logger.error("Invalid project data provided:", validation.error.format());
       return NextResponse.json(validation.error.format(), { status: 400 });
+    }
+    logger.info("Project data validated successfully.");
 
     await connectToDatabase();
-    console.log("Database connected");
+    logger.info("Database connected.");
 
     const projectDetails = await prisma.projects.create({ data: body });
-    console.log("added the project: ", projectDetails);
-
-    if (!projectDetails) {
-      console.error("User not found");
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
+    logger.info("Project added:", projectDetails);
 
     return NextResponse.json(
-      { message: "Project added successfully", Project: { projectDetails } },
+      { message: "Project added successfully", project: projectDetails },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error occurred:", error);
+    logger.error("Error occurred while adding project:", error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
   } finally {
     await prisma.$disconnect();
-    console.log("Database disconnected");
+    logger.info("Database disconnected.");
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    console.log("Inside the PUT project request");
+    logger.info("Inside PUT project request.");
 
     const isValid = verifySessionToken(request);
     if (!isValid) {
+      logger.error("Session token validation failed.");
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    console.log("Auth passed");
+    logger.info("Session token validated successfully.");
 
     const body = await request.json();
-    console.log("The body is:", body);
+    logger.info("Received request body:", body);
 
     const validation = ProjectSchema.safeParse(body);
     if (!validation.success) {
+      logger.error("Invalid project data provided:", validation.error.format());
       return NextResponse.json(validation.error.format(), { status: 400 });
     }
+    logger.info("Project data validated successfully.");
 
     await connectToDatabase();
-    console.log("Database connected");
+    logger.info("Database connected.");
 
     const { id, ...updateData } = body;
     if (!id) {
+      logger.error("Project ID is missing.");
       return NextResponse.json(
-        { message: "project ID is required" },
+        { message: "Project ID is required" },
         { status: 400 }
       );
     }
 
-    const updatedBlog = await prisma.projects.update({
+    const updatedProject = await prisma.projects.update({
       where: { id },
       data: updateData,
     });
-    console.log("Updated the project: ", updatedBlog);
+    logger.info("Project updated:", updatedProject);
 
     return NextResponse.json(
-      { message: "project updated successfully", Blog: updatedBlog },
+      { message: "Project updated successfully", project: updatedProject },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error occurred:", error);
+    logger.error("Error occurred while updating project:", error);
     return NextResponse.json({ message: "Server Error" }, { status: 500 });
   } finally {
     await prisma.$disconnect();
-    console.log("Database disconnected");
+    logger.info("Database disconnected.");
   }
 }

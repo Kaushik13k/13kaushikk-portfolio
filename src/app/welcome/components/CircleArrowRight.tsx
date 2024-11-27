@@ -1,7 +1,7 @@
 import React from "react";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 
 const CircleArrowRight = ({ guidedTest = false }) => {
   return (

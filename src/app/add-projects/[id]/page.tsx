@@ -1,13 +1,12 @@
 "use client";
-
-import React, { useEffect, useState } from "react";
+import axios from "axios";
 import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
-import { InputField } from "../../components/InputField";
-import LogoutButton from "../../components/LogoutButton";
-import { CldImage, CldUploadWidget } from "next-cloudinary";
-import axios from "axios";
 import { useParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { InputField } from "@app/components/InputField";
+import LogoutButton from "@app/components/LogoutButton";
+import { CldImage, CldUploadWidget } from "next-cloudinary";
 
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
@@ -15,15 +14,12 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 
 export default function MdeRenderer() {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const [publicId, setPublicId] = useState<string>("");
   const [inProgress, setInProgress] = useState(false);
-  const [projectArticle, setProjectArticle] = useState<string>("");
+  const [publicId, setPublicId] = useState<string>("");
   const [projectTitle, setProjectTitle] = useState("");
-  const [projectDescription, setProjectDescription] = useState("");
   const [projectImage, setProjectImage] = useState("");
+  const [projectArticle, setProjectArticle] = useState<string>("");
+  const [projectDescription, setProjectDescription] = useState("");
   const [publishDate, setPublishDate] = useState<string>(() => {
     const today = new Date();
     return new Intl.DateTimeFormat("en-US", {
@@ -32,6 +28,10 @@ export default function MdeRenderer() {
       year: "numeric",
     }).format(today);
   });
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
   const imageSrc = projectImage
     ? `${projectImage}`
     : publicId

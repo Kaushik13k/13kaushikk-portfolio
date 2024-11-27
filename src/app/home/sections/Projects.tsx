@@ -1,15 +1,13 @@
 "use client";
+import Image from "next/image";
+import gtaImage from "../../assets/gta5.jpg";
 import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
-
 import {
   faXbox,
   faPlaystation,
   faApple,
 } from "@fortawesome/free-brands-svg-icons";
-import gtaImage from "../../assets/gta5.jpg";
-
 import {
   faCircleArrowLeft,
   faCircleArrowRight,

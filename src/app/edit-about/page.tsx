@@ -1,60 +1,25 @@
 "use client";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import { CldImage } from "next-cloudinary";
+import { useState, useEffect } from "react";
 import { CldUploadWidget } from "next-cloudinary";
-import LogoutButton from "../components/LogoutButton";
-
-const InputField = ({
-  label,
-  value,
-  onChange,
-  type = "text",
-  placeholder = "",
-}: {
-  label: string;
-  value: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  type?: string;
-  placeholder?: string;
-}) => (
-  <div className="mb-4">
-    <label className="block text-sm font-medium text-gray-600 mb-1">
-      {label}
-    </label>
-    {type === "textarea" ? (
-      <textarea
-        value={value}
-        onChange={onChange}
-        className="w-full px-3 py-2 border rounded-md"
-        placeholder={placeholder}
-      />
-    ) : (
-      <input
-        type={type}
-        value={value}
-        onChange={onChange}
-        className="w-full px-3 py-2 border rounded-md"
-        placeholder={placeholder}
-      />
-    )}
-  </div>
-);
+import { InputField } from "@app/components/InputField";
+import LogoutButton from "@app/components/LogoutButton";
+import { ABOUT_MAX_LENGTH, TITLE_MAX_LENGTH } from "@app/constants/profile";
 
 export default function App() {
+  const [devTo, setDevTo] = useState("");
+  const [github, setGithub] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [linkedin, setLinkedin] = useState("");
+  const [instagram, setInstagram] = useState("");
   const [publicId, setPublicId] = useState<string>("");
   const [portfolioName, setPortfolioName] = useState("");
   const [portfolioTitle, setPortfolioTitle] = useState("");
   const [portfolioAbout, setPortfolioAbout] = useState("");
   const [portfolioEmail, setPortfolioEmail] = useState("");
   const [portfolioImage, setPortfolioImage] = useState("");
-  const [instagram, setInstagram] = useState("");
-  const [twitter, setTwitter] = useState("");
-  const [github, setGithub] = useState("");
-  const [devTo, setDevTo] = useState("");
-  const [linkedin, setLinkedin] = useState("");
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -118,6 +83,7 @@ export default function App() {
       }
     }
   };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUploadSuccess = (result: any) => {
     if (result.event === "success" && result.info?.public_id) {
@@ -132,6 +98,18 @@ export default function App() {
   const handleUploadError = (error: unknown) => {
     console.error("Upload error:", error);
   };
+
+  const isTitleValid = portfolioTitle.length <= TITLE_MAX_LENGTH;
+  const isAboutValid = portfolioAbout.length <= ABOUT_MAX_LENGTH;
+
+  const titleErrorMessage = !isTitleValid
+    ? `Title cannot exceed ${TITLE_MAX_LENGTH} characters`
+    : "";
+  const aboutErrorMessage = !isAboutValid
+    ? `About section cannot exceed ${ABOUT_MAX_LENGTH} characters`
+    : "";
+
+  const isFormValid = isTitleValid && isAboutValid;
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -159,14 +137,16 @@ export default function App() {
           label="Title"
           value={portfolioTitle}
           onChange={(e) => setPortfolioTitle(e.target.value)}
+          errorMessage={titleErrorMessage}
         />
         <InputField
           label="About"
           value={portfolioAbout}
           onChange={(e) => setPortfolioAbout(e.target.value)}
           type="textarea"
+          errorMessage={aboutErrorMessage}
         />
-        <p className="text-xs text-red-600 -mt-4">
+        <p className="text-xs text-blue-600 -mt-4">
           NOTE: If a new paragraph needed, with break in middle use: \n\n
         </p>
         <br />
@@ -252,7 +232,10 @@ export default function App() {
         <button
           type="button"
           onClick={handleSaveChanges}
-          className="m-2 px-10 py-3 bg-zinc-950 text-white rounded-md hover:bg-zinc-600"
+          disabled={!isFormValid}
+          className={`m-2 px-10 py-3 ${
+            isFormValid ? "bg-zinc-950" : "bg-gray-400"
+          } text-white rounded-md hover:bg-zinc-600`}
         >
           Save Changes
         </button>
