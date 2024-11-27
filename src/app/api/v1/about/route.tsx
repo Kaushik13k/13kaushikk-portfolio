@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
           portfolioAbout: body.portfolioAbout,
           portfolioImage: body.portfolioImage,
           portfolioContact: body.portfolioContact,
+          isHireMe: body.isHireMe,
           updatedAt: new Date(),
         },
         create: {
@@ -87,6 +88,7 @@ export async function POST(request: NextRequest) {
           portfolioEmail: body.portfolioEmail,
           portfolioImage: body.portfolioImage,
           portfolioContact: body.portfolioContact,
+          isHireMe: body.isHireMe,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

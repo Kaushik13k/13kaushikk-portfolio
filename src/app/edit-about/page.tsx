@@ -13,6 +13,7 @@ export default function App() {
   const [twitter, setTwitter] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [instagram, setInstagram] = useState("");
+  const [isHireMe, setIsHireMe] = useState(false);
   const [publicId, setPublicId] = useState<string>("");
   const [portfolioName, setPortfolioName] = useState("");
   const [portfolioTitle, setPortfolioTitle] = useState("");
@@ -27,13 +28,14 @@ export default function App() {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/v1/about");
-        const data = response.data.data.userDetails;
+        const data = response.data.data;
 
         setPortfolioName(data.portfolioName);
         setPortfolioTitle(data.portfolioTitle);
         setPortfolioAbout(data.portfolioAbout);
         setPortfolioEmail(data.portfolioEmail);
         setPortfolioImage(data.portfolioImage);
+        setIsHireMe(data.isHireMe);
         setInstagram(data.portfolioContact.instagram);
         setTwitter(data.portfolioContact.twitter);
         setGithub(data.portfolioContact.github);
@@ -69,6 +71,7 @@ export default function App() {
           devTo,
           linkedin,
         },
+        isHireMe,
       };
 
       const response = await axios.post("/api/v1/about", payload);
@@ -87,16 +90,14 @@ export default function App() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUploadSuccess = (result: any) => {
     if (result.event === "success" && result.info?.public_id) {
-      console.log("Upload successful:", result);
       setPortfolioImage(result.info.public_id);
       setPublicId(result.info.public_id);
     } else {
-      console.warn("Unexpected upload result:", result);
     }
   };
 
-  const handleUploadError = (error: unknown) => {
-    console.error("Upload error:", error);
+  const handleUploadError = () => {
+    return;
   };
 
   const isTitleValid = portfolioTitle.length <= TITLE_MAX_LENGTH;
@@ -127,7 +128,6 @@ export default function App() {
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
           Edit Portfolio
         </h2>
-
         <InputField
           label="Name"
           value={portfolioName}
@@ -156,7 +156,6 @@ export default function App() {
           onChange={(e) => setPortfolioEmail(e.target.value)}
           type="email"
         />
-
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-600 mb-1">
             Profile Image
@@ -194,7 +193,6 @@ export default function App() {
             )}
           </CldUploadWidget>
         </div>
-
         <h3 className="text-lg font-medium text-gray-700 mb-4">
           Contact Links
         </h3>
@@ -228,7 +226,15 @@ export default function App() {
           onChange={(e) => setLinkedin(e.target.value)}
           type="url"
         />
-
+        <p className="text-sm text-red-400">Please Select the below checkbox</p>
+        <input
+          type="checkbox"
+          checked={isHireMe}
+          onChange={(e) => setIsHireMe(e.target.checked ? true : false)}
+          className="mb-10"
+        />{" "}
+        Hire Me?
+        <br />
         <button
           type="button"
           onClick={handleSaveChanges}
