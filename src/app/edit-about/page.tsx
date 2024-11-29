@@ -2,12 +2,14 @@
 import axios from "axios";
 import { CldImage } from "next-cloudinary";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { CldUploadWidget } from "next-cloudinary";
 import { InputField } from "@app/components/InputField";
 import LogoutButton from "@app/components/LogoutButton";
 import { ABOUT_MAX_LENGTH, TITLE_MAX_LENGTH } from "@app/constants/profile";
 
 export default function App() {
+  const router = useRouter();
   const [devTo, setDevTo] = useState("");
   const [github, setGithub] = useState("");
   const [twitter, setTwitter] = useState("");
@@ -20,13 +22,22 @@ export default function App() {
   const [portfolioAbout, setPortfolioAbout] = useState("");
   const [portfolioEmail, setPortfolioEmail] = useState("");
   const [portfolioImage, setPortfolioImage] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const validateTokenAndFetchData = async () => {
       try {
+        const tokenResponse = await axios.get("/api/v1/validate-token");
+
+        if (tokenResponse.status !== 200) {
+          throw new Error("Invalid session token");
+        }
+
+        setIsAuthenticated(true);
+
         const response = await axios.get("/api/v1/about");
         const data = response.data.data;
 
@@ -48,13 +59,15 @@ export default function App() {
         } else {
           setError("An unknown error occurred.");
         }
+        alert("Unauthorized or failed to fetch data. Redirecting to login...");
+        router.push("/login");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    validateTokenAndFetchData();
+  }, [router]);
 
   const handleSaveChanges = async () => {
     try {
@@ -77,6 +90,7 @@ export default function App() {
       const response = await axios.post("/api/v1/about", payload);
       if (response.status === 200) {
         alert("Portfolio updated successfully!");
+        router.push("/edit-portfolio");
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -112,7 +126,7 @@ export default function App() {
 
   const isFormValid = isTitleValid && isAboutValid;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || !isAuthenticated) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   const imageSrc = portfolioImage

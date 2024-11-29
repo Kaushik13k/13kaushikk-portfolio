@@ -34,21 +34,26 @@ model PortfolioAbout {
 }
 
 model Blogs {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
   blogTitle       String
   blogDescription String
   blogImage       String
   avgReadTime     String
   hostSource      String
+  hostLink        String
   publishDate     String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 
 model Projects {
-  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
   projectTitle       String
   projectDescription String
   projectImage       String
   projectArticle     String
   publishDate        String
   inProgress         Boolean
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }

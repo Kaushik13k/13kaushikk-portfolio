@@ -1,22 +1,25 @@
 "use client";
 import axios from "axios";
-import logger from "@logger";
 import { CldImage } from "next-cloudinary";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Checkbox from "@app/components/Checkbox";
 import { CldUploadWidget } from "next-cloudinary";
+import { useParams, useRouter } from "next/navigation";
 import LogoutButton from "@app/components/LogoutButton";
 import { InputField } from "@app/components/InputField";
 
 export default function App() {
   const { id } = useParams();
+  const router = useRouter();
+  const [hostLink, setHostLink] = useState("");
   const [blogTitle, setBlogTitle] = useState("");
   const [blogImage, setBlogImage] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
   const [hostSource, setHostSource] = useState("");
   const [avgReadTime, setAvgReadTime] = useState("");
   const [publicId, setPublicId] = useState<string>("");
   const [blogDescription, setBlogDescription] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -31,50 +34,67 @@ export default function App() {
   });
 
   useEffect(() => {
-    if (id !== "new") {
-      const fetchBlog = async () => {
-        try {
-          logger.info(`Fetching blog with ID: ${id}`);
-          const response = await axios.get(`/api/v1/blogs?id=${id}`);
-          const existingBlog = response.data?.data;
-          if (existingBlog) {
-            logger.info("Blog found, setting state");
-            setPublicId(existingBlog.blogImage);
-            setHostSource(existingBlog.hostSource);
-            setBlogDescription(existingBlog.blogDescription);
-            setBlogTitle(existingBlog.blogTitle);
-            setBlogImage(existingBlog.blogImage);
-            setAvgReadTime(existingBlog.avgReadTime);
-            setPublishDate(existingBlog.publishDate);
-          }
-        } catch (err) {
-          logger.error("Error fetching blog:", err);
-          alert("The Id doesn't exist. Please check-id or enter new record");
-          setError("The Id doesn't exist. Please check-id or enter new record");
-        } finally {
-          logger.info("Blog fetch completed.");
-          setIsLoading(false);
-        }
-      };
+    const validateToken = async () => {
+      try {
+        const response = await axios.get("/api/v1/validate-token");
 
-      fetchBlog();
-    } else {
-      logger.info("Creating a new blog entry.");
-      setIsLoading(false);
-    }
-  }, [id]);
+        if (response.status !== 200) {
+          throw new Error("Invalid session token");
+        }
+
+        setIsAuthenticated(true);
+        return true;
+      } catch (err) {
+        alert("Unauthorized or invalid token. Redirecting to login...");
+        router.push("/login");
+        return false;
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/v1/blogs?id=${id}`);
+        const existingBlog = response.data?.data;
+
+        if (existingBlog) {
+          setPublicId(existingBlog.blogImage);
+          setHostSource(existingBlog.hostSource);
+          setBlogDescription(existingBlog.blogDescription);
+          setBlogTitle(existingBlog.blogTitle);
+          setBlogImage(existingBlog.blogImage);
+          setAvgReadTime(existingBlog.avgReadTime);
+          setPublishDate(existingBlog.publishDate);
+          setHostLink(existingBlog.hostLink);
+        } else {
+          throw new Error("Blog not found.");
+        }
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.message || "Failed to fetch data.");
+        } else {
+          setError("An unknown error occurred.");
+        }
+        alert("Failed to fetch blog data.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const validateAndFetch = async () => {
+      const isTokenValid = await validateToken();
+      if (isTokenValid && id !== "new") {
+        await fetchData();
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    validateAndFetch();
+  }, [id, router]);
 
   const handleSaveChanges = async () => {
+    setIsSaving(true);
     try {
-      logger.info("Saving new blog entry with payload:", {
-        publishDate,
-        hostSource,
-        blogDescription,
-        blogTitle,
-        blogImage,
-        avgReadTime,
-      });
-
       const payload = {
         publishDate,
         hostSource,
@@ -82,34 +102,29 @@ export default function App() {
         blogTitle,
         blogImage,
         avgReadTime,
+        hostLink,
       };
 
       const response = await axios.post("/api/v1/blogs", payload);
       if (response.status === 200) {
         alert("Blog added successfully!");
-        logger.info("Blog added successfully:", response.data);
+        router.push("/edit-portfolio");
       }
     } catch (err) {
-      logger.error("Error saving blog:", err);
       if (axios.isAxiosError(err)) {
         alert(err.response?.data?.message || "Failed to update Blog.");
       } else {
         alert("An unknown error occurred.");
       }
+    } finally {
+      setIsSaving(false);
     }
   };
 
   const handleEditChanges = async () => {
+    setIsSaving(true);
     try {
-      logger.info("Editing blog with ID:", id, "and payload:", {
-        publishDate,
-        hostSource,
-        blogDescription,
-        blogTitle,
-        blogImage,
-        avgReadTime,
-      });
-
+      const updatedAt = new Date();
       const payload = {
         id,
         publishDate,
@@ -118,45 +133,47 @@ export default function App() {
         blogTitle,
         blogImage,
         avgReadTime,
+        hostLink,
+        updatedAt,
       };
 
       const response = await axios.put("/api/v1/blogs", payload);
       if (response.status === 200) {
         alert("Blog updated successfully!");
-        logger.info("Blog updated successfully:", response.data);
+        router.push("/edit-portfolio");
       }
     } catch (err) {
-      logger.error("Error editing blog:", err);
       if (axios.isAxiosError(err)) {
         alert(err.response?.data?.message || "Failed to update Blog.");
       } else {
         alert("An unknown error occurred.");
       }
+    } finally {
+      setIsSaving(false);
     }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUploadSuccess = (result: any) => {
     if (result.event === "success" && result.info?.public_id) {
-      logger.info("Image upload successful:", result);
       setBlogImage(result.info.public_id);
       setPublicId(result.info.public_id);
     } else {
-      logger.warn("Unexpected upload result:", result);
+      alert("Unexpected upload result");
     }
   };
 
   const handleUploadError = (error: unknown) => {
-    logger.error("Image upload error:", error);
+    alert("Image upload error");
   };
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    logger.info("Host source changed to:", value);
     setHostSource(value);
   };
 
   const imageSrc = blogImage ? `${blogImage}` : publicId ? `${publicId}` : "";
+  if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative p-4">
@@ -249,7 +266,11 @@ export default function App() {
                 onChange={(e) => handleCheckboxChange(e)}
               />
             </div>
-
+            <InputField
+              label="Host Link"
+              value={hostLink}
+              onChange={(e) => setHostLink(e.target.value)}
+            />
             <InputField
               label="Publish Date"
               value={publishDate}
@@ -275,6 +296,13 @@ export default function App() {
           </>
         )}
       </div>
+      {isSaving && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-md shadow-lg">
+            <p className="text-lg font-semibold text-gray-700">Saving...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

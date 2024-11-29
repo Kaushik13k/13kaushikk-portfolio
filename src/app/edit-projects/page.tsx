@@ -15,12 +15,21 @@ const CardsPage = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [projectData, setProjectData] = useState<Blog[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const validateTokenAndFetchData = async () => {
       try {
+        const tokenResponse = await axios.get("/api/v1/validate-token");
+
+        if (tokenResponse.status !== 200) {
+          throw new Error("Invalid session token");
+        }
+
+        setIsAuthenticated(true);
+
         const response = await axios.get("/api/v1/projects");
         const data = response.data.data;
         const projData = data.projectDetails;
@@ -31,13 +40,15 @@ const CardsPage = () => {
         } else {
           setError("An unknown error occurred.");
         }
+        alert("Unauthorized or failed to fetch data. Redirecting to login...");
+        router.push("/login");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    validateTokenAndFetchData();
+  }, [router]);
 
   const itemsPerPage = 8;
   const totalPages = Math.ceil(projectData.length / itemsPerPage);
@@ -57,6 +68,7 @@ const CardsPage = () => {
   const handleCardClick = (id: string) => {
     router.push(`/add-projects/${id}`);
   };
+  if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">

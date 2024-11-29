@@ -2,7 +2,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import logger from "@logger";
 
 export default function App() {
   const [user, setUsername] = useState("");
@@ -27,9 +26,7 @@ export default function App() {
         if (response.status === 401) {
           router.push("/login");
         }
-      } catch (error) {
-        logger.error("Token validation failed:", error);
-      }
+      } catch (error) {}
     };
 
     checkToken();
@@ -54,7 +51,6 @@ export default function App() {
         },
       });
 
-      logger.info("Login successful:", response.status);
       setSuccess("Login successful!");
 
       router.push("/edit-portfolio");

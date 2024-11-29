@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
 import React from "react";
-import logger from "@logger";
 import { useRouter } from "next/navigation";
 
 const LogoutButton = () => {
@@ -10,15 +9,13 @@ const LogoutButton = () => {
   const handleLogout = async () => {
     try {
       const response = await axios.post("/api/v1/logout");
-      logger.info("Logout successful:");
 
       if (response.status === 200) {
         router.push("/login");
         return;
       }
-      logger.error("Failed to logout:");
     } catch (error: unknown) {
-      logger.error("Failed to logout:", error);
+      alert("Error while logging out!");
     }
   };
 
