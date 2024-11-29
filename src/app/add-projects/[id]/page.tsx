@@ -2,8 +2,8 @@
 import axios from "axios";
 import dynamic from "next/dynamic";
 import "easymde/dist/easymde.min.css";
-import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { InputField } from "@app/components/InputField";
 import LogoutButton from "@app/components/LogoutButton";
 import { CldImage, CldUploadWidget } from "next-cloudinary";
@@ -14,6 +14,8 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
 
 export default function MdeRenderer() {
   const { id } = useParams();
+  const router = useRouter();
+  const [isSaving, setIsSaving] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const [publicId, setPublicId] = useState<string>("");
   const [projectTitle, setProjectTitle] = useState("");
@@ -31,6 +33,7 @@ export default function MdeRenderer() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const imageSrc = projectImage
     ? `${projectImage}`
@@ -39,40 +42,65 @@ export default function MdeRenderer() {
     : "";
 
   useEffect(() => {
-    if (id != "new") {
-      const fetchProject = async () => {
-        try {
-          const response = await axios.get(`/api/v1/projects?id=${id}`);
-          const existingProject = response.data?.data?.projectDetails;
-          if (existingProject) {
-            setPublicId(existingProject.blogImage);
-            setInProgress(existingProject.inProgress);
-            setProjectArticle(existingProject.projectArticle);
-            setProjectTitle(existingProject.projectTitle);
-            setProjectDescription(existingProject.projectDescription);
-            setProjectImage(existingProject.projectImage);
-            setPublishDate(existingProject.publishDate);
-          }
-        } catch {
-          alert("The Id doesnt exist. Please check-id or enter new record");
-          setError("The Id doesnt exist. Please check-id or enter new record");
-        } finally {
-          setIsLoading(false);
-        }
-      };
+    const validateToken = async () => {
+      try {
+        const response = await axios.get("/api/v1/validate-token");
 
-      fetchProject();
-    } else {
-      setIsLoading(false);
-    }
-  }, [id]);
+        if (response.status !== 200) {
+          throw new Error("Invalid session token");
+        }
+
+        setIsAuthenticated(true);
+        return true;
+      } catch (err) {
+        alert("Unauthorized or invalid token. Redirecting to login...");
+        router.push("/login");
+        return false;
+      }
+    };
+
+    const fetchProject = async () => {
+      try {
+        const response = await axios.get(`/api/v1/projects?id=${id}`);
+        const existingProject = response.data?.data?.projectDetails;
+        if (existingProject) {
+          setPublicId(existingProject.blogImage);
+          setInProgress(existingProject.inProgress);
+          setProjectArticle(existingProject.projectArticle);
+          setProjectTitle(existingProject.projectTitle);
+          setProjectDescription(existingProject.projectDescription);
+          setProjectImage(existingProject.projectImage);
+          setPublishDate(existingProject.publishDate);
+        }
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.message || "Failed to fetch data.");
+        } else {
+          setError("An unknown error occurred.");
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const validateAndFetch = async () => {
+      const isTokenValid = await validateToken();
+      if (isTokenValid && id !== "new") {
+        await fetchProject();
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    validateAndFetch();
+  }, [id, router]);
 
   const handleChange = (text: string) => {
     setProjectArticle(text);
-    console.log(projectArticle);
   };
 
   const handleSaveChanges = async () => {
+    setIsSaving(true);
     try {
       const payload = {
         publishDate,
@@ -86,6 +114,7 @@ export default function MdeRenderer() {
       const response = await axios.post("/api/v1/projects", payload);
       if (response.status === 200) {
         alert("Project Added successfully!");
+        router.push("/edit-portfolio");
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -93,26 +122,29 @@ export default function MdeRenderer() {
       } else {
         alert("An unknown error occurred.");
       }
+    } finally {
+      setIsSaving(false);
     }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleUploadSuccess = (result: any) => {
     if (result.event === "success" && result.info?.public_id) {
-      console.log("Upload successful:", result);
       setProjectImage(result.info.public_id);
       setPublicId(result.info.public_id);
     } else {
-      console.warn("Unexpected upload result:", result);
+      alert("there was error while uploading the image");
     }
   };
 
   const handleUploadError = (error: unknown) => {
-    console.error("Upload error:", error);
+    alert("there was error while uploading the image");
   };
 
   const handleEditChanges = async () => {
+    setIsSaving(true);
     try {
+      const updatedAt = new Date();
       const payload = {
         id,
         publishDate,
@@ -121,11 +153,13 @@ export default function MdeRenderer() {
         projectTitle,
         projectArticle,
         inProgress,
+        updatedAt,
       };
 
       const response = await axios.put("/api/v1/projects", payload);
       if (response.status === 200) {
         alert("Project updated successfully!");
+        router.push("/edit-portfolio");
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
@@ -133,8 +167,11 @@ export default function MdeRenderer() {
       } else {
         alert("An unknown error occurred.");
       }
+    } finally {
+      setIsSaving(false);
     }
   };
+  if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
     <div className="p-4">
@@ -230,6 +267,13 @@ export default function MdeRenderer() {
             </button>
           )}
         </>
+      )}
+      {isSaving && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-4 rounded-md shadow-lg">
+            <p className="text-lg font-semibold text-gray-700">Saving...</p>
+          </div>
+        </div>
       )}
     </div>
   );

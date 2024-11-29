@@ -6,6 +6,7 @@ const BlogSchema = z.object({
   blogImage: z.string().min(1, "Blog img is required"),
   avgReadTime: z.string().min(1, "Blog avg read time is required"),
   hostSource: z.string().min(1, "Blog source is required"),
+  hostLink: z.string().min(1, "Blog Link is required"),
   publishDate: z.string().min(1, "Blog date is required"),
 });
 

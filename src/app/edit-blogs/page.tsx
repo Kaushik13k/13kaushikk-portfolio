@@ -15,14 +15,22 @@ const CardsPage = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [blogData, setBlogData] = useState<Blog[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const validateTokenAndFetchData = async () => {
       try {
+        const tokenResponse = await axios.get("/api/v1/validate-token");
+
+        if (tokenResponse.status !== 200) {
+          throw new Error("Invalid session token");
+        }
+
+        setIsAuthenticated(true);
+
         const response = await axios.get("/api/v1/blogs");
-        console.log("the records are:", response);
         const blgData = response.data.data;
         setBlogData(blgData);
       } catch (err) {
@@ -31,13 +39,15 @@ const CardsPage = () => {
         } else {
           setError("An unknown error occurred.");
         }
+        alert("Unauthorized or failed to fetch data. Redirecting to login...");
+        router.push("/login");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    validateTokenAndFetchData();
+  }, [router]);
 
   const itemsPerPage = 8;
   const totalPages = Math.ceil(blogData.length / itemsPerPage);
@@ -57,6 +67,7 @@ const CardsPage = () => {
   const handleCardClick = (id: string) => {
     router.push(`/add-blogs/${id}`);
   };
+  if (!isAuthenticated) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">

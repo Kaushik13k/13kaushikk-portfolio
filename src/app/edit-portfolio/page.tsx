@@ -1,7 +1,35 @@
+"use client";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import LogoutButton from "@app/components/LogoutButton";
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const validateTokenAndFetchData = async () => {
+      try {
+        const response = await axios.get("/api/v1/validate-token");
+
+        if (response.status !== 200) {
+          throw new Error("Invalid session token");
+        }
+
+        setIsAuthenticated(true);
+      } catch (err) {
+        alert("Unauthorized or failed to fetch data. Redirecting to login...");
+        router.push("/login");
+      }
+    };
+
+    validateTokenAndFetchData();
+  }, [router]);
+  if (!isAuthenticated) return <div>Loading...</div>;
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 relative">
       <LogoutButton />

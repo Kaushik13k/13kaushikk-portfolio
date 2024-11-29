@@ -26,9 +26,7 @@ export default function App() {
         if (response.status === 401) {
           router.push("/login");
         }
-      } catch (error) {
-        console.error("Token validation failed:", error);
-      }
+      } catch (error) {}
     };
 
     checkToken();
@@ -53,7 +51,6 @@ export default function App() {
         },
       });
 
-      console.log("Login successful:", response.status);
       setSuccess("Login successful!");
 
       router.push("/edit-portfolio");
