@@ -11,14 +11,19 @@ export async function GET(request: NextRequest) {
   logger.info(`[${requestId}] Starting GET /about request.`);
 
   try {
-    logger.info(`[${requestId}] Verifying session token.`);
-    const isValid = verifySessionToken(request);
+    const url = new URL(request.url);
+    const isPublic = url.searchParams.get("public") === "true";
 
-    if (!isValid) {
-      logger.error(`[${requestId}] Unauthorized access attempt.`);
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!isPublic) {
+      logger.info(`[${requestId}] Verifying session token.`);
+      const isValid = verifySessionToken(request);
+
+      if (!isValid) {
+        logger.error(`[${requestId}] Unauthorized access attempt.`);
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      }
+      logger.info(`[${requestId}] Session token verified successfully.`);
     }
-    logger.info(`[${requestId}] Session token verified successfully.`);
 
     await connectToDatabase();
     logger.info(`[${requestId}] Database connected.`);

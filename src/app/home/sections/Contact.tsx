@@ -1,6 +1,11 @@
 import React from "react";
+import { PortfolioContact } from "@/app/models/contact";
 
-const Contact = () => {
+const Contact = ({
+  portfolioContact,
+}: {
+  portfolioContact: PortfolioContact;
+}) => {
   return (
     <div className="flex flex-col" id="portfolio-contact">
       <div className="flex justify-start items-center p-4 lg:mx-60 mb-12">
@@ -13,18 +18,21 @@ const Contact = () => {
           <p className="text-sm text-[#83816D] pt-2">
             Do you have an idea you&apos;d like to discuss? Feel free to reach
             me at
-            <a href="#">
-              <span className="text-red-700"> hello@kaushik13k.com</span>
+            <a href={`mailto:${portfolioContact.portfolioEmail}`}>
+              <span className="text-red-700">
+                {" "}
+                {portfolioContact.portfolioEmail}
+              </span>
             </a>{" "}
             . You can also find me on ,
-            <a href="#">
+            <a href={portfolioContact.twitter}>
               <span className="text-red-700"> Twitter,</span>
             </a>{" "}
-            <a href="#">
+            <a href={portfolioContact.github}>
               <span className="text-red-700"> Github</span>
             </a>{" "}
             and{" "}
-            <a href="#">
+            <a href={portfolioContact.linkedin}>
               <span className="text-red-700"> Linkedin</span>
             </a>{" "}
             .

@@ -15,3 +15,35 @@ export interface Portfolio {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+interface PortfolioContact {
+  instagram: string;
+  linkedin: string;
+  twitter: string;
+  github: string;
+  devTo: string;
+}
+
+export interface AboutContent {
+  isHireMe: boolean;
+  portfolioTitle: string;
+  portfolioAbout: string;
+  portfolioEmail: string;
+  portfolioImage: string;
+  portfolioContact: PortfolioContact;
+}
+
+export const defaultAbout: AboutContent = {
+  isHireMe: false,
+  portfolioTitle: "",
+  portfolioAbout: "",
+  portfolioEmail: "",
+  portfolioContact: {
+    linkedin: "",
+    devTo: "",
+    twitter: "",
+    instagram: "",
+    github: "",
+  },
+  portfolioImage: "",
+};
