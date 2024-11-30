@@ -9,15 +9,18 @@ import Projects from "@app/home/sections/Projects";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { AboutContent, defaultAbout } from "@app/models/about";
+import { defaultBlogs, PortfolioBlogs } from "@app/models/blogs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { defaultContact, PortfolioContact } from "@app/models/contact";
 
 const Home = () => {
-  const [about, setAbout] = useState<AboutContent>(defaultAbout);
-  const [contact, setContact] = useState<PortfolioContact>(defaultContact);
   const [error, setError] = useState<string | null>(null);
   const [showTopButton, setShowTopButton] = useState(false);
+
+  const [about, setAbout] = useState<AboutContent>(defaultAbout);
+  const [blogs, setBlogs] = useState<PortfolioBlogs[]>([]);
+  const [contact, setContact] = useState<PortfolioContact>(defaultContact);
 
   useEffect(() => {
     const fetchAboutData = async () => {
@@ -37,8 +40,23 @@ const Home = () => {
         }
       }
     };
+    const fetchBlogsData = async () => {
+      try {
+        const response = await axios.get("/api/v1/blogs?limit=2&public=true");
+        const blogData = response.data.data;
+
+        setBlogs(blogData);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.message || "Failed to fetch data.");
+        } else {
+          setError("An unknown error occurred.");
+        }
+      }
+    };
 
     fetchAboutData();
+    fetchBlogsData();
 
     window.scrollTo(0, 0);
     const handleScroll = () => {
@@ -65,7 +83,7 @@ const Home = () => {
       <Navbar />
       <Body aboutContent={about} />
       <Projects />
-      <Blogs />
+      <Blogs portfolioBlogs={blogs} />
       <Contact portfolioContact={contact} />
       <Footer />
 
