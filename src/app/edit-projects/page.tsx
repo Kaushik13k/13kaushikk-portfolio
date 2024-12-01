@@ -31,8 +31,8 @@ const CardsPage = () => {
         setIsAuthenticated(true);
 
         const response = await axios.get("/api/v1/projects");
-        const data = response.data.data;
-        const projData = data.projectDetails;
+        const projData = response.data.data;
+
         setProjectData(projData);
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -51,11 +51,13 @@ const CardsPage = () => {
   }, [router]);
 
   const itemsPerPage = 8;
-  const totalPages = Math.ceil(projectData.length / itemsPerPage);
-  const currentData = projectData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const totalPages = Math.ceil((projectData?.length || 0) / itemsPerPage);
+  const currentData = Array.isArray(projectData)
+    ? projectData.slice(
+        (currentPage - 1) * itemsPerPage,
+        currentPage * itemsPerPage
+      )
+    : [];
 
   const handlePrevious = () => {
     if (currentPage > 1) setCurrentPage((prev) => prev - 1);

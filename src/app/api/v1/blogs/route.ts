@@ -6,15 +6,22 @@ import { verifySessionToken } from "@helpers/middleware";
 import { connectToDatabase } from "@helpers/server-helpers";
 
 export async function GET(request: NextRequest) {
+  logger.info("Handling GET request for blogs");
   try {
-    logger.info("Handling GET request for blogs");
+    const url = new URL(request.url);
+    const isPublic = url.searchParams.get("public") === "true";
+    const limit = url.searchParams.get("limit");
 
-    const isValid = verifySessionToken(request);
-    if (!isValid) {
-      logger.error("Session token verification failed");
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!isPublic) {
+      logger.info(`Verifying session token.`);
+      const isValid = verifySessionToken(request);
+
+      if (!isValid) {
+        logger.error(`Unauthorized access attempt.`);
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      }
+      logger.info(`Session token verified successfully.`);
     }
-    logger.info("Session token verified successfully");
 
     await connectToDatabase();
     logger.info("Database connection established");
@@ -37,6 +44,16 @@ export async function GET(request: NextRequest) {
     } else {
       logger.info("Fetching all blogs");
       blogDetails = await prisma.blogs.findMany();
+
+      if (limit) {
+        blogDetails = blogDetails
+          .sort(
+            (a, b) =>
+              new Date(b.publishDate).getTime() -
+              new Date(a.publishDate).getTime()
+          )
+          .slice(0, 2);
+      }
     }
 
     return NextResponse.json(
