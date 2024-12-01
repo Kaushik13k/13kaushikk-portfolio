@@ -6,15 +6,21 @@ import { connectToDatabase } from "@helpers/server-helpers";
 import ProjectSchema from "@api/projects/ProjectValidationSchema";
 
 export async function GET(request: NextRequest) {
+  logger.info("Inside GET project request.");
   try {
-    logger.info("Inside GET project request.");
+    const url = new URL(request.url);
+    const isPublic = url.searchParams.get("public") === "true";
 
-    const isValid = verifySessionToken(request);
-    if (!isValid) {
-      logger.error("Session token validation failed.");
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!isPublic) {
+      logger.info(`Verifying session token.`);
+      const isValid = verifySessionToken(request);
+
+      if (!isValid) {
+        logger.error("Session token validation failed.");
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      }
+      logger.info("Session token validated successfully.");
     }
-    logger.info("Session token validated successfully.");
 
     await connectToDatabase();
     logger.info("Database connected.");

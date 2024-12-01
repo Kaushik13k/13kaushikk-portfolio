@@ -75,6 +75,7 @@ export default function MdeRenderer() {
           setProjectDescription(existingProject.projectDescription);
           setProjectImage(existingProject.projectImage);
           setPublishDate(existingProject.publishDate);
+          setSelectedTechnologies(existingProject.selectedTechnologies);
         }
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -179,7 +180,7 @@ export default function MdeRenderer() {
   };
   if (!isAuthenticated) return <div>Loading...</div>;
 
-  const technologies = ["Python", "Rust", "Next.js", "SQL"];
+  const technologies = ["Python", "Rust", "Next.js", "Redis"];
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
