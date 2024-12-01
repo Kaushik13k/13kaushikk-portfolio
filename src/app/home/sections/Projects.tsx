@@ -202,7 +202,7 @@ const Projects = ({
                                   color: hoveredIcons[projectIndex]?.[iconIndex]
                                     ? "#22200F"
                                     : "#BFBCA7",
-                                  fontSize: "1.25rem",
+                                  fontSize: "1.4rem",
                                   transition: "color 0.2s ease",
                                 }}
                               />
@@ -229,8 +229,8 @@ const Projects = ({
                                   )
                                 }
                                 style={{
-                                  width: "1.25rem",
-                                  height: "1.25rem",
+                                  width: "1.4rem",
+                                  height: "1.4rem",
                                   filter: hoveredIcons[projectIndex]?.[
                                     iconIndex
                                   ]
