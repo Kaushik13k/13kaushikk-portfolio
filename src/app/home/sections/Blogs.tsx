@@ -7,6 +7,13 @@ import { faMedium, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CldImage } from "next-cloudinary";
 
+const truncateDescription = (description: string) => {
+  if (description.length > 125) {
+    return description.slice(0, 125) + "...";
+  }
+  return description;
+};
+
 const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
   const getHostIcon = (hostSource: string, hostLink: string) => {
     switch (hostSource.toLowerCase()) {
@@ -89,7 +96,7 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
                 {portfolioBlogs[0].blogTitle}
               </h3>
               <p className="text-xs flex-grow">
-                {portfolioBlogs[0].blogDescription}
+                {truncateDescription(portfolioBlogs[0].blogDescription)}
               </p>
               <div className="flex flex-row items-center space-x-4 mt-4">
                 <p className="text-xs">{portfolioBlogs[0].publishDate}</p>
@@ -123,7 +130,7 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
                 {portfolioBlogs[1].blogTitle}
               </h3>
               <p className="text-xs flex-grow">
-                {portfolioBlogs[1].blogDescription}
+                {truncateDescription(portfolioBlogs[1].blogDescription)}
               </p>
               <div className="flex flex-row items-center space-x-4 mt-4">
                 <p className="text-xs">{portfolioBlogs[1].publishDate}</p>

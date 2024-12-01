@@ -44,7 +44,7 @@ const CardsPage = () => {
       } finally {
         setIsLoading(false);
       }
-    };
+    }; 
 
     validateTokenAndFetchData();
   }, [router]);
