@@ -59,10 +59,10 @@ const Navbar: React.FC = () => {
                 <Link key={link.name} href={link.href}>
                   <li
                     onClick={() => handleLinkClick(link.name)}
-                    className={`flex justify-between items-center cursor-pointer px-4 py-1 rounded-xl transition-colors ${
+                    className={`cursor-pointer px-4 py-1 transition-all ${
                       activeLink === link.name
-                        ? "bg-[#ECE9D5] text-black"
-                        : "hover:bg-gray-100 text-gray-700"
+                        ? "border-b-2 border-black text-black"
+                        : "hover:text-gray-700"
                     }`}
                   >
                     {link.name.charAt(0).toUpperCase() + link.name.slice(1)}
@@ -77,10 +77,10 @@ const Navbar: React.FC = () => {
               <Link key={link.name} href={link.href}>
                 <li
                   onClick={() => handleLinkClick(link.name)}
-                  className={`cursor-pointer px-4 py-1 rounded-xl transition-colors ${
+                  className={`cursor-pointer px-4 py-1 transition-all ${
                     activeLink === link.name
-                      ? "bg-[#ECE9D5] text-black"
-                      : "hover:bg-gray-100 text-gray-700"
+                      ? "border-b-2 border-black text-black"
+                      : "hover:text-gray-700"
                   }`}
                 >
                   {link.name.charAt(0).toUpperCase() + link.name.slice(1)}
