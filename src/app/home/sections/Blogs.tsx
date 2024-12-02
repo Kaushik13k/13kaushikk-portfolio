@@ -14,26 +14,26 @@ const truncateDescription = (description: string) => {
   return description;
 };
 
-const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
-  const getHostIcon = (hostSource: string, hostLink: string) => {
-    switch (hostSource.toLowerCase()) {
-      case "medium":
-        return (
-          <Link href={hostLink} target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faMedium} className="text-gray-700" />
-          </Link>
-        );
-      case "linkedin":
-        return (
-          <Link href={hostLink} target="_blank" rel="noopener noreferrer">
-            <FontAwesomeIcon icon={faLinkedinIn} className="text-gray-700" />
-          </Link>
-        );
-      default:
-        return null;
-    }
-  };
+export const getHostIcon = (hostSource: string, hostLink: string) => {
+  switch (hostSource.toLowerCase()) {
+    case "medium":
+      return (
+        <Link href={hostLink} target="_blank" rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faMedium} className="text-gray-700" />
+        </Link>
+      );
+    case "linkedin":
+      return (
+        <Link href={hostLink} target="_blank" rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faLinkedinIn} className="text-gray-700" />
+        </Link>
+      );
+    default:
+      return null;
+  }
+};
 
+const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
   return (
     <div
       className="flex flex-col justify-center items-center p-4 lg:mx-60 my-12"
