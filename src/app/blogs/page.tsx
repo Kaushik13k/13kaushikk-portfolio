@@ -86,7 +86,7 @@ function App() {
                     {card.avgReadTime}
                   </span>
                   <span className="bg-gray-100 px-2 py-1 rounded-full">
-                    {getHostIcon(card.hostSource, card.hostLink)}
+                    {getHostIcon(card.hostSource)}
                     {/* <FontAwesomeIcon
                       icon={faMedium}
                       className="text-gray-700"
