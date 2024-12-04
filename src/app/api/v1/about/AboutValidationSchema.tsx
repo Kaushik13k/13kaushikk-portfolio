@@ -15,6 +15,7 @@ const AboutSchema = z.object({
       message: "Title should not exceed 600 words",
     }),
   portfolioEmail: z.string().min(1, "Email is required").max(255),
+  highlightWords: z.string().min(1, "Highlight Words is required"),
 });
 
 export default AboutSchema;
