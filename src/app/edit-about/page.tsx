@@ -18,6 +18,7 @@ export default function App() {
   const [isHireMe, setIsHireMe] = useState(false);
   const [publicId, setPublicId] = useState<string>("");
   const [portfolioName, setPortfolioName] = useState("");
+  const [highlightWords, setHighlightWords] = useState("");
   const [portfolioTitle, setPortfolioTitle] = useState("");
   const [portfolioAbout, setPortfolioAbout] = useState("");
   const [portfolioEmail, setPortfolioEmail] = useState("");
@@ -46,6 +47,7 @@ export default function App() {
         setPortfolioAbout(data.portfolioAbout);
         setPortfolioEmail(data.portfolioEmail);
         setPortfolioImage(data.portfolioImage);
+        setHighlightWords(data.highlightWords);
         setIsHireMe(data.isHireMe);
         setInstagram(data.portfolioContact.instagram);
         setTwitter(data.portfolioContact.twitter);
@@ -77,6 +79,7 @@ export default function App() {
         portfolioAbout,
         portfolioEmail,
         portfolioImage,
+        highlightWords,
         portfolioContact: {
           instagram,
           twitter,
@@ -163,6 +166,12 @@ export default function App() {
         <p className="text-xs text-blue-600 -mt-4">
           NOTE: If a new paragraph needed, with break in middle use: \n\n
         </p>
+        <InputField
+          label="Heighlight Words needed"
+          type="textarea"
+          value={highlightWords}
+          onChange={(e) => setHighlightWords(e.target.value)}
+        />
         <br />
         <InputField
           label="Email"

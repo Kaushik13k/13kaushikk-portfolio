@@ -30,6 +30,7 @@ export interface AboutContent {
   portfolioAbout: string;
   portfolioEmail: string;
   portfolioImage: string;
+  highlightWords: string;
   portfolioContact: PortfolioContact;
 }
 
@@ -38,6 +39,7 @@ export const defaultAbout: AboutContent = {
   portfolioTitle: "",
   portfolioAbout: "",
   portfolioEmail: "",
+  highlightWords: "",
   portfolioContact: {
     linkedin: "",
     devTo: "",

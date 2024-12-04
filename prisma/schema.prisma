@@ -29,6 +29,7 @@ model PortfolioAbout {
   portfolioContact Json
   portfolioImage   String
   isHireMe         Boolean
+  highlightWords   String
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }

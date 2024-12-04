@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import gtaImage from "@app/assets/gta5.jpg";
+import Skeleton from "react-loading-skeleton";
 import { PortfolioBlogs } from "@/app/models/blogs";
 import { faMedium, faLinkedinIn } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -144,7 +143,17 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
           </Link>
         </div>
       ) : (
-        <p className="text-xs text-gray-400">No blogs available</p>
+        <div className="flex flex-col lg:flex-row lg:space-x-6 mt-6 w-full">
+          <div className="flex flex-col lg:flex-row lg:space-x-6 w-full">
+            <div className="w-full lg:w-1/3">
+              <Skeleton height={300} width="100%" className="m-1" />
+            </div>
+
+            <div className="w-full lg:w-1/3">
+              <Skeleton height={300} width="100%" className="m-1" />
+            </div>
+          </div>
+        </div>
       )}
       <div className="mt-8">
         <Link href="/blogs">

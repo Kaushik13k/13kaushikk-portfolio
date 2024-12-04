@@ -1,4 +1,5 @@
 import React from "react";
+import Skeleton from "react-loading-skeleton";
 import { PortfolioContact } from "@/app/models/contact";
 
 const Contact = ({
@@ -6,6 +7,7 @@ const Contact = ({
 }: {
   portfolioContact: PortfolioContact;
 }) => {
+  const isLoading = !portfolioContact || portfolioContact.portfolioEmail === "";
   return (
     <div className="flex flex-col" id="portfolio-contact">
       <div className="flex justify-start items-center p-4 lg:mx-60 mb-12">
@@ -19,10 +21,14 @@ const Contact = ({
             Do you have an idea you&apos;d like to discuss? Feel free to reach
             me at
             <a href={`mailto:${portfolioContact.portfolioEmail}`}>
-              <span className="text-red-700">
-                {" "}
-                {portfolioContact.portfolioEmail}
-              </span>
+              {isLoading ? (
+                <Skeleton height={15} width={`10%`} />
+              ) : (
+                <span className="text-red-700">
+                  {" "}
+                  {portfolioContact.portfolioEmail}
+                </span>
+              )}
             </a>{" "}
             . You can also find me on ,
             <a href={portfolioContact.twitter}>

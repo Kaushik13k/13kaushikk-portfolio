@@ -27,7 +27,6 @@ function App() {
 
         const blogData = blogResponse.data.data;
         setBlogs(blogData);
-        console.log("the blogs page result is:", blogData);
       } catch (err) {
         if (axios.isAxiosError(err)) {
           setError(err.response?.data?.message || "Failed to fetch data.");
