@@ -14,20 +14,12 @@ const truncateDescription = (description: string) => {
   return description;
 };
 
-export const getHostIcon = (hostSource: string, hostLink: string) => {
+export const getHostIcon = (hostSource: string) => {
   switch (hostSource.toLowerCase()) {
     case "medium":
-      return (
-        <Link href={hostLink} target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faMedium} className="text-gray-700" />
-        </Link>
-      );
+      return <FontAwesomeIcon icon={faMedium} className="text-gray-700" />;
     case "linkedin":
-      return (
-        <Link href={hostLink} target="_blank" rel="noopener noreferrer">
-          <FontAwesomeIcon icon={faLinkedinIn} className="text-gray-700" />
-        </Link>
-      );
+      return <FontAwesomeIcon icon={faLinkedinIn} className="text-gray-700" />;
     default:
       return null;
   }
@@ -47,7 +39,12 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
       </div>
       {portfolioBlogs && portfolioBlogs.length > 0 ? (
         <div className="flex flex-col lg:flex-row md:flex-row space-x-0 lg:space-x-6 md:space-x-6 mt-6 w-full">
-          <div className="rounded-xl shadow-lg overflow-hidden w-full lg:w-2/3 md:w-2/3 mb-4 lg:mb-0 md:mb-0 hidden lg:flex md:flex">
+          <Link
+            href={portfolioBlogs[0].hostLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl shadow-lg overflow-hidden w-full lg:w-2/3 md:w-2/3 mb-4 lg:mb-0 md:mb-0 hidden lg:flex md:flex"
+          >
             {portfolioBlogs[0].blogImage && (
               <CldImage
                 width="200"
@@ -68,19 +65,20 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
               <div className="flex flex-row items-center space-x-4 mt-4">
                 <p className="text-xs">{portfolioBlogs[0].publishDate}</p>
                 <span className="bg-gray-100 px-2 py-1 rounded-full flex items-center">
-                  {getHostIcon(
-                    portfolioBlogs[0].hostSource,
-                    portfolioBlogs[0].hostLink
-                  )}
+                  {getHostIcon(portfolioBlogs[0].hostSource)}
                 </span>
                 <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-black">
                   {portfolioBlogs[0].avgReadTime}
                 </span>
               </div>
             </div>
-          </div>
-
-          <div className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3 mb-4 lg:mb-0 md:mb-0 lg:hidden md:hidden">
+          </Link>
+          <Link
+            href={portfolioBlogs[0].hostLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3 mb-4 lg:mb-0 md:mb-0 lg:hidden md:hidden"
+          >
             {portfolioBlogs[0].blogImage && (
               <CldImage
                 width="200"
@@ -101,19 +99,20 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
               <div className="flex flex-row items-center space-x-4 mt-4">
                 <p className="text-xs">{portfolioBlogs[0].publishDate}</p>
                 <span className="bg-gray-100 px-2 py-1 rounded-full flex items-center">
-                  {getHostIcon(
-                    portfolioBlogs[0].hostSource,
-                    portfolioBlogs[0].hostLink
-                  )}
+                  {getHostIcon(portfolioBlogs[0].hostSource)}
                 </span>
                 <span className="bg-gray-100 px-2 py-1 rounded-full text-xs text-black">
                   {portfolioBlogs[0].avgReadTime}
                 </span>
               </div>
             </div>
-          </div>
-
-          <div className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3">
+          </Link>
+          <Link
+            href={portfolioBlogs[1].hostLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3"
+          >
             {portfolioBlogs[1].blogImage && (
               <CldImage
                 width="200"
@@ -135,17 +134,14 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
               <div className="flex flex-row items-center space-x-4 mt-4">
                 <p className="text-xs">{portfolioBlogs[1].publishDate}</p>
                 <span className="bg-gray-100 px-2 py-1 rounded-full flex items-center">
-                  {getHostIcon(
-                    portfolioBlogs[1].hostSource,
-                    portfolioBlogs[1].hostLink
-                  )}
+                  {getHostIcon(portfolioBlogs[1].hostSource)}
                 </span>
                 <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
                   {portfolioBlogs[1].avgReadTime}
                 </span>
               </div>
             </div>
-          </div>
+          </Link>
         </div>
       ) : (
         <p className="text-xs text-gray-400">No blogs available</p>
