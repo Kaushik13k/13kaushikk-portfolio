@@ -44,7 +44,7 @@ export default function App() {
 
         setIsAuthenticated(true);
         return true;
-      } catch (err) {
+      } catch {
         alert("Unauthorized or invalid token. Redirecting to login...");
         router.push("/login");
         return false;
@@ -163,7 +163,7 @@ export default function App() {
     }
   };
 
-  const handleUploadError = (error: unknown) => {
+  const handleUploadError = () => {
     alert("Image upload error");
   };
 

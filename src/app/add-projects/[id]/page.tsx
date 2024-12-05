@@ -56,7 +56,7 @@ export default function MdeRenderer() {
 
         setIsAuthenticated(true);
         return true;
-      } catch (err) {
+      } catch {
         alert("Unauthorized or invalid token. Redirecting to login...");
         router.push("/login");
         return false;
@@ -143,7 +143,7 @@ export default function MdeRenderer() {
     }
   };
 
-  const handleUploadError = (error: unknown) => {
+  const handleUploadError = () => {
     alert("there was error while uploading the image");
   };
 

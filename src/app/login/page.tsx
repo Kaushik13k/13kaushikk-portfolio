@@ -26,7 +26,7 @@ export default function App() {
         if (response.status === 401) {
           router.push("/login");
         }
-      } catch (error) {}
+      } catch {}
     };
 
     checkToken();
@@ -45,11 +45,13 @@ export default function App() {
         password,
       };
 
-      const response = await axios.post("api/v1/login", payload, {
+      const loginResponse = await axios.post("api/v1/login", payload, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      if (loginResponse) {
+      }
 
       setSuccess("Login successful!");
 

@@ -20,7 +20,7 @@ export default function App() {
         }
 
         setIsAuthenticated(true);
-      } catch (err) {
+      } catch {
         alert("Unauthorized or failed to fetch data. Redirecting to login...");
         router.push("/login");
       }

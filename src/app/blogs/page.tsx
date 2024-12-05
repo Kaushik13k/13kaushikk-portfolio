@@ -27,7 +27,7 @@ const SkeletonCard = () => (
 );
 
 function App() {
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<PortfolioBlogs[]>([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,7 +50,7 @@ function App() {
           setError("An unknown error occurred.");
         }
       } finally {
-        setLoading(false); // Stop loading after data fetch
+        setLoading(false);
       }
     };
 
