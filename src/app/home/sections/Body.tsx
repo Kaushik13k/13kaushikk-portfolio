@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { CldImage } from "next-cloudinary";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -163,7 +163,7 @@ const Body = ({ aboutContent }: { aboutContent: AboutContent }) => {
           ) : (
             aboutContent.isHireMe && (
               <p className="text-sm">
-                I'm currently looking for a new role as a{" "}
+                I&apos;m currently looking for a new role as a{" "}
                 <span
                   style={{
                     backgroundColor: "#FFD700",

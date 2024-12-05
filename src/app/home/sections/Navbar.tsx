@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";

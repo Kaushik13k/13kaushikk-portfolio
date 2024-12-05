@@ -1,6 +1,7 @@
 import rust from "@app/assets/icons/rust-icon.svg";
 
 interface IconMapping {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   icon: any;
   link: string;
   type: "lineicon" | "svg";

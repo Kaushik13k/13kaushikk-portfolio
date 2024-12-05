@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import Link from "next/link";
 import "lineicons/dist/lineicons.css";
@@ -164,7 +165,8 @@ const Projects = ({
           </div>
         ) : (
           <div
-            className="overflow-x-auto w-full hide-scrollbar"
+            className="overflow-x-auto w-full"
+            style={{ scrollbarWidth: "none", overflowX: "auto" }}
             ref={scrollContainerRef}
           >
             <div className="flex space-x-6 md:space-x-10 pt-10">

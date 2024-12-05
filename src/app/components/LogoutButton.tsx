@@ -14,7 +14,7 @@ const LogoutButton = () => {
         router.push("/login");
         return;
       }
-    } catch (error: unknown) {
+    } catch {
       alert("Error while logging out!");
     }
   };

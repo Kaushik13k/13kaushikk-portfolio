@@ -19,7 +19,7 @@ function App() {
   const { id } = useParams();
   const [projects, setProjects] =
     useState<PortfolioProjectSingle>(defaultProjects);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {

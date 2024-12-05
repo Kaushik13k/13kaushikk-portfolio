@@ -16,7 +16,7 @@ import { faCircleArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { defaultContact, PortfolioContact } from "@app/models/contact";
 
 const Home = () => {
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [blogs, setBlogs] = useState<PortfolioBlogs[]>([]);
   const [projects, setProjects] = useState<PortfolioProjects[]>([]);
   const [showTopButton, setShowTopButton] = useState(false);
