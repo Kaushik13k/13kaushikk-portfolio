@@ -2,6 +2,7 @@
 import Link from "next/link";
 import "lineicons/dist/lineicons.css";
 import { CldImage } from "next-cloudinary";
+import { useRouter } from "next/navigation";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { iconMappings } from "@/app/constants/icons";
@@ -25,6 +26,7 @@ const Projects = ({
 }: {
   portfolioProjects: PortfolioProjects[];
 }) => {
+  const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isLeftDisabled, setIsLeftDisabled] = useState(true);
   const [isRightDisabled, setIsRightDisabled] = useState(false);
@@ -43,7 +45,7 @@ const Projects = ({
       );
       setHoveredIcons(initialHoveredIcons);
     }
-  }, [portfolioProjects]);
+  }, [portfolioProjects, router]);
 
   useEffect(() => {
     updateButtonStates();
@@ -93,6 +95,10 @@ const Projects = ({
           : icons
       )
     );
+  };
+
+  const handleCardClick = (id: string) => {
+    router.push(`/projects/${id}`);
   };
 
   return (
@@ -165,7 +171,8 @@ const Projects = ({
               {portfolioProjects.map((project, projectIndex) => (
                 <div
                   key={project.projectTitle + projectIndex}
-                  className="flex flex-col items-start w-64 md:w-80 flex-shrink-0"
+                  className="flex flex-col items-start w-64 md:w-80 flex-shrink-0 group cursor-pointer transform transition duration-300 hover:scale-105"
+                  onClick={() => handleCardClick(project.id)}
                 >
                   <div className="bg-white rounded-lg shadow-md w-full">
                     <div className="flex items-center justify-start bg-[#BFBCA7] p-2 rounded-t-lg">

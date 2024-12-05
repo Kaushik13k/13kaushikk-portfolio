@@ -6,6 +6,16 @@ interface MarkdownRendererProps {
   content: string;
 }
 
+function getHeadingId(children: React.ReactNode): string {
+  if (Array.isArray(children)) {
+    const text = children
+      .map((child) => (typeof child === "string" ? child : ""))
+      .join("");
+    return text.toLowerCase().replace(/\s+/g, "-");
+  }
+  return "";
+}
+
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
   const headingStyle = "font-extrabold";
 
@@ -15,16 +25,36 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content }) => {
         remarkPlugins={[remarkGfm]}
         components={{
           h2: ({ children }) => (
-            <h2 className={`text-4xl mt-5 ${headingStyle}`}>{children}</h2>
+            <h2
+              id={getHeadingId(children)}
+              className={`text-4xl mt-5 ${headingStyle}`}
+            >
+              {children}
+            </h2>
           ),
           h3: ({ children }) => (
-            <h3 className={`text-3xl mt-5 ${headingStyle}`}>{children}</h3>
+            <h3
+              id={getHeadingId(children)}
+              className={`text-3xl mt-5 ${headingStyle}`}
+            >
+              {children}
+            </h3>
           ),
           h4: ({ children }) => (
-            <h4 className={`text-2xl mt-5 ${headingStyle}`}>{children}</h4>
+            <h4
+              id={getHeadingId(children)}
+              className={`text-2xl mt-5 ${headingStyle}`}
+            >
+              {children}
+            </h4>
           ),
           h5: ({ children }) => (
-            <h5 className={`text-xl mt-5 ${headingStyle}`}>{children}</h5>
+            <h5
+              id={getHeadingId(children)}
+              className={`text-xl mt-5 ${headingStyle}`}
+            >
+              {children}
+            </h5>
           ),
           p: ({ children }) => <p className="text-sm mt-5">{children}</p>,
           li: ({ children }) => (
