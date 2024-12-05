@@ -1,4 +1,5 @@
 export interface PortfolioProjects {
+  id: string;
   inProgress: boolean;
   projectArticle: string;
   projectDescription: string;
