@@ -42,7 +42,7 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
             href={portfolioBlogs[0].hostLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-xl shadow-lg overflow-hidden w-full lg:w-2/3 md:w-2/3 mb-4 lg:mb-0 md:mb-0 hidden lg:flex md:flex"
+            className="rounded-xl shadow-lg overflow-hidden w-full lg:w-2/3 md:w-2/3 mb-4 lg:mb-0 md:mb-0 hidden lg:flex md:flex transform transition duration-300 hover:scale-102"
           >
             {portfolioBlogs[0].blogImage && (
               <CldImage
@@ -76,7 +76,7 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
             href={portfolioBlogs[0].hostLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3 mb-4 lg:mb-0 md:mb-0 lg:hidden md:hidden"
+            className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3 mb-4 lg:mb-0 md:mb-0 lg:hidden md:hidden transform transition duration-300 hover:scale-102"
           >
             {portfolioBlogs[0].blogImage && (
               <CldImage
@@ -110,7 +110,7 @@ const Blogs = ({ portfolioBlogs }: { portfolioBlogs: PortfolioBlogs[] }) => {
             href={portfolioBlogs[1].hostLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3"
+            className="flex flex-col rounded-xl shadow-lg overflow-hidden w-full lg:w-1/3 md:w-1/3 transform transition duration-300 hover:scale-102"
           >
             {portfolioBlogs[1].blogImage && (
               <CldImage

@@ -98,13 +98,13 @@ const Projects = ({
   };
 
   const handleCardClick = (id: string) => {
-    router.push(`/projects/${id}`);
+    window.open(`/projects/${id}`, "_blank");
   };
 
   return (
     <div className="flex flex-col justify-center items-center p-4 lg:mx-60">
       <div className="relative w-full">
-        <div className="absolute left-0 top-1/2 lg:-left-10">
+        <div className="absolute left-0 top-1/2 lg:-left-10 z-50">
           <FontAwesomeIcon
             onClick={scrollLeft}
             style={{
@@ -121,7 +121,7 @@ const Projects = ({
           />
         </div>
 
-        <div className="absolute right-0 lg:-right-10 top-1/2">
+        <div className="absolute right-0 lg:-right-10 top-1/2 z-50">
           <FontAwesomeIcon
             onClick={scrollRight}
             style={{
@@ -171,7 +171,7 @@ const Projects = ({
               {portfolioProjects.map((project, projectIndex) => (
                 <div
                   key={project.projectTitle + projectIndex}
-                  className="flex flex-col items-start w-64 md:w-80 flex-shrink-0 group cursor-pointer transform transition duration-300 hover:scale-105"
+                  className="flex flex-col items-start w-64 md:w-80 flex-shrink-0 group cursor-pointer transform transition duration-300 hover:scale-102"
                   onClick={() => handleCardClick(project.id)}
                 >
                   <div className="bg-white rounded-lg shadow-md w-full">

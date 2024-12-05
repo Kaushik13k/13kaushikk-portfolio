@@ -1,13 +1,36 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const [activeLink, setActiveLink] = useState<string>("about");
+
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (isClient) {
+      if (pathname.includes("/projects")) {
+        setActiveLink("projects");
+      } else if (pathname.includes("/blogs")) {
+        setActiveLink("blogs");
+      } else if (pathname === "/home") {
+        setActiveLink("about");
+      } else {
+        setActiveLink("");
+      }
+    }
+  }, [pathname, isClient]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

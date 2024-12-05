@@ -87,7 +87,7 @@ const Home = () => {
       {showTopButton && (
         <FontAwesomeIcon
           onClick={scrollToTop}
-          className="fixed bottom-20 right-20 rounded-full shadow-xl hover:scale-125 duration-300 ease-in-out"
+          className="fixed bottom-20 right-20 rounded-full shadow-xl hover:scale-125 duration-300 ease-in-out hidden lg:block"
           icon={faCircleArrowUp}
           size="3x"
         />
