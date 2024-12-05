@@ -1,86 +1,61 @@
 "use client";
-import React, { useState } from "react";
-import gtaImage from "../assets/gta5.jpg";
+import axios from "axios";
+import { CldImage } from "next-cloudinary";
+import Navbar from "@app/home/sections/Navbar";
+import Footer from "@app/home/sections/Footer";
+import { PortfolioBlogs } from "@app/models/blogs";
+import React, { useEffect, useState } from "react";
+import { getHostIcon } from "@app/home/sections/Blogs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMedium } from "@fortawesome/free-brands-svg-icons";
 import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
-import Navbar from "../home/sections/Navbar";
-import Image from "next/image";
-
-// Array of card data
-const cardsData = [
-  {
-    title: "Unveiling the Secrets Beyond the Tourist Trails",
-    description:
-      "Dive into the local culture, discover hidden spots, and experience the authentic charm...",
-    date: "30 Jan 2024",
-    readTime: "10 mins read",
-    imgSrc: gtaImage,
-  },
-  {
-    title: "A Fashionista's Guide to Wanderlust",
-    description:
-      "Explore the intersection of fashion and travel as we delve into the wardrobes of...",
-    date: "30 Jan 2024",
-    readTime: "10 mins read",
-    imgSrc: gtaImage,
-  },
-  {
-    title: "Top 5 Apps and Gadgets That Will Transform Your Journeys",
-    description:
-      "Explore the latest in travel technology with our guide to must-have apps and gadgets...",
-    date: "30 Jan 2024",
-    readTime: "10 mins read",
-    imgSrc: gtaImage,
-  },
-  {
-    title: "GTA V: A Thrilling Ride Through Los Santos",
-    description:
-      "Join us as we explore the highs and lows of Rockstar's iconic open-world adventure...",
-    date: "29 Jan 2024",
-    readTime: "5 mins read",
-    imgSrc: gtaImage,
-  },
-  {
-    title: "Exploring the Hidden Gem of Europe",
-    description:
-      "Discover the picturesque destinations that are off the beaten path...",
-    date: "31 Jan 2024",
-    readTime: "8 mins read",
-    imgSrc: gtaImage,
-  },
-  {
-    title: "Ultimate Guide to Travel Photography",
-    description:
-      "Get the best tips on how to capture beautiful moments while you travel...",
-    date: "25 Jan 2024",
-    readTime: "12 mins read",
-    imgSrc: gtaImage,
-  },
-  {
-    title: "Best Food Destinations Around the World",
-    description:
-      "Taste your way through different cultures with our top culinary destinations...",
-    date: "28 Jan 2024",
-    readTime: "15 mins read",
-    imgSrc: gtaImage,
-  },
-];
+import Link from "next/link";
 
 const itemsPerPage = 6;
 
+const SkeletonCard = () => (
+  <div className="w-full animate-pulse">
+    <div className="bg-gray-300 h-40 sm:h-48 lg:h-52 w-full rounded-lg"></div>
+    <div className="mt-4 space-y-2">
+      <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+      <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+      <div className="h-4 bg-gray-300 rounded w-1/4"></div>
+    </div>
+  </div>
+);
+
 function App() {
+  const [error, setError] = useState<string | null>(null);
+  const [blogs, setBlogs] = useState<PortfolioBlogs[]>([]);
+  const [loading, setLoading] = useState(true); // Loading state
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalPages = Math.ceil(cardsData.length / itemsPerPage);
-
-  const currentData = cardsData.slice(
+  const totalPages = Math.ceil(blogs.length / itemsPerPage);
+  const currentData = blogs.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const blogResponse = await axios.get("/api/v1/blogs?public=true");
+        setBlogs(blogResponse.data.data);
+      } catch (err) {
+        if (axios.isAxiosError(err)) {
+          setError(err.response?.data?.message || "Failed to fetch data.");
+        } else {
+          setError("An unknown error occurred.");
+        }
+      } finally {
+        setLoading(false); // Stop loading after data fetch
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handlePageChange = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -90,39 +65,61 @@ function App() {
 
   return (
     <div>
-      <Navbar />
-      <div className="mx-60 my-10">
-        <div className="grid grid-cols-3 gap-8">
-          {currentData.map((card, index) => (
-            <div key={index} className="w-full">
-              <Image
-                src={card.imgSrc}
-                alt="card image"
-                className="w-full h-44 object-cover rounded-lg"
-              />
-              <div className="mt-4">
-                <div className="flex space-x-2 text-gray-500 text-xs">
-                  <span className="bg-gray-100 px-2 py-1 rounded-full">
-                    {card.date}
-                  </span>
-                  <span className="bg-gray-100 px-2 py-1 rounded-full">
-                    {card.readTime}
-                  </span>
-                  <span className="bg-gray-100 px-2 py-1 rounded-full">
-                    <FontAwesomeIcon
-                      icon={faMedium}
-                      className="text-gray-700"
-                    />
-                  </span>
-                </div>
-                <h3 className="font-bold text-lg mt-1">{card.title}</h3>
-                <p className="text-sm text-gray-700 mt-2">{card.description}</p>
-              </div>
-            </div>
-          ))}
+      <div className="px-4 sm:px-10 lg:mx-20">
+        <Navbar />
+      </div>
+      <div className="px-4 sm:px-10 lg:mx-60 my-10">
+        <h1 className="flex items-center justify-center mb-10 text-5xl font-extrabold text-[#676451]">
+          Blogs
+        </h1>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {loading
+            ? Array.from({ length: itemsPerPage }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
+            : currentData.map((card, index) => (
+                <Link
+                  key={index}
+                  href={card.hostLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className="w-full">
+                    {card.blogImage && (
+                      <CldImage
+                        width="200"
+                        height="200"
+                        src={card.blogImage}
+                        alt={card.blogTitle}
+                        className="w-full h-40 sm:h-48 lg:h-52 object-cover rounded-lg"
+                        priority
+                      />
+                    )}
+                    <div className="mt-4">
+                      <div className="flex space-x-2 text-gray-500 text-xs">
+                        <span className="bg-gray-100 px-2 py-1 rounded-full">
+                          {card.publishDate}
+                        </span>
+                        <span className="bg-gray-100 px-2 py-1 rounded-full">
+                          {card.avgReadTime}
+                        </span>
+                        <span className="bg-gray-100 px-2 py-1 rounded-full">
+                          {getHostIcon(card.hostSource)}
+                        </span>
+                      </div>
+                      <h3 className="font-bold text-lg mt-1">
+                        {card.blogTitle}
+                      </h3>
+                      <p className="text-sm text-gray-700 mt-2">
+                        {card.blogDescription}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
         </div>
 
-        {/* Pagination controls */}
         <div className="flex justify-center mt-10 space-x-2">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
@@ -133,7 +130,7 @@ function App() {
                 : "text-black"
             }`}
           >
-            <FontAwesomeIcon icon={faChevronLeft} /> {/* Left Arrow Icon */}
+            <FontAwesomeIcon icon={faChevronLeft} />
           </button>
 
           {[...Array(totalPages).keys()].map((page) => (
@@ -159,10 +156,11 @@ function App() {
                 : "text-black"
             }`}
           >
-            <FontAwesomeIcon icon={faChevronRight} /> {/* Right Arrow Icon */}
+            <FontAwesomeIcon icon={faChevronRight} />
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import React from "react";
-// TODO:
-// 2. mobile view - change the size
+
 const Footer = () => {
   return (
     <div
@@ -9,7 +8,7 @@ const Footer = () => {
     >
       <p className="text-sm">
         <span className="font-semibold">
-          © 2024 Kaushik K. All rights reserved. &nbsp;
+          © 2025 Kaushik K. All rights reserved. &nbsp;
         </span>
         Built with Next.js, TypeScript and Tailwind CSS.
       </p>

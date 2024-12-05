@@ -19,7 +19,18 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@api/*": ["./src/app/api/v1/*"],
+      "@components/*": ["./src/components/*"],
+      "@constants/*": ["./src/constants/*"],
+      "@models/*": ["./src/models/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@prisma": ["./prisma/client"],
+      "@utils/*": ["./src/app/api/v1/utils/*"],
+      "@helpers/*": ["./helpers/*"],
+      "@styles": ["./src/globals.css"],
+      "@logger": ["./logger.js"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

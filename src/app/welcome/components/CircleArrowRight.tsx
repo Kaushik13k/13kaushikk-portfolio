@@ -1,18 +1,13 @@
 import React from "react";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
 
 const CircleArrowRight = ({ guidedTest = false }) => {
-  // const handleClick = () => {
-  //   console.log("clicked!");
-  //   // navigate("/home");
-  // };
   return (
     <div className="flex items-center justify-center mt-4">
       <Link href="/home">
         <FontAwesomeIcon
-          // onClick={handleClick}
           icon={faCircleArrowRight}
           className="ml-2 text-4xl text-dark-brownish-black hover:text-grayish-brown transition duration-300"
         />
